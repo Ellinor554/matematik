@@ -196,3 +196,13 @@
 .ex-feedback.ok  { color: var(--sage-dark); }
 .ex-feedback.err { color: var(--gold); }
 .ex-hint { margin-top: 4px; font-size: 11px; color: var(--warm-gray); font-style: italic; }
+
+/* ── COMING SOON ── */
+.ex-coming-soon {
+  padding: 48px 32px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--warm-gray);
+  font-style: italic;
+}

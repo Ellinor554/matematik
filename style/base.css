@@ -38,8 +38,10 @@ body {
   display: flex;
   flex-direction: column;
   z-index: 100;
+  transform: translateX(-260px);
   transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
 }
+.sidebar.visible { transform: translateX(0); }
 
 .sidebar-logo {
   padding: 36px 28px 28px;
@@ -164,11 +166,13 @@ body {
 
 /* ── MAIN ── */
 .main {
-  margin-left: 260px;
+  margin-left: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: margin-left 0.35s cubic-bezier(0.4,0,0.2,1);
 }
+.main.sidebar-open { margin-left: 260px; }
 
 /* ── TOPBAR ── */
 .topbar {
@@ -468,3 +472,134 @@ body {
 .stat-row     { animation: fadeUp 0.5s 0.1s ease both; }
 .topics-grid  { animation: fadeUp 0.5s 0.2s ease both; }
 .module-panel { animation: fadeUp 0.5s 0.3s ease both; }
+
+/* ── HOME VIEW ── */
+.home-view {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: var(--cream);
+  position: relative;
+  z-index: 150;
+  animation: fadeUp 0.45s ease both;
+}
+
+.home-brand {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.home-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.home-logo-sub {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--warm-gray);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.home-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px;
+  font-weight: 300;
+  color: var(--ink);
+  text-align: center;
+  margin-bottom: 52px;
+  line-height: 1.1;
+}
+.home-heading em { font-style: italic; color: var(--sage-dark); }
+
+/* ── GRADE CARDS ── */
+.grade-cards {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.grade-card {
+  background: var(--white);
+  border: 1px solid var(--cream-dark);
+  border-radius: 24px;
+  padding: 52px 44px 40px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 188px;
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+.grade-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--sage-light);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.grade-card:hover {
+  border-color: var(--sage-light);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px var(--shadow);
+}
+.grade-card:hover::before { transform: scaleX(1); }
+
+.grade-card.featured { border-color: var(--sage); }
+.grade-card.featured::before { transform: scaleX(1); background: var(--sage-dark); }
+.grade-card.featured:hover { border-color: var(--sage-dark); }
+
+.grade-card-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 88px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.grade-card.featured .grade-card-num { color: var(--sage-dark); }
+
+.grade-card-name {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.grade-card-status {
+  font-size: 11px;
+  color: var(--warm-gray);
+  background: var(--cream);
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-top: 8px;
+}
+.grade-card.featured .grade-card-status {
+  background: color-mix(in srgb, var(--sage-light) 40%, transparent);
+  color: var(--sage-dark);
+}
+
+/* ── BACK BUTTON ── */
+.btn-home {
+  background: none;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--warm-gray);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+.btn-home:hover { color: var(--ink); }

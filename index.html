@@ -9,6 +9,32 @@
 </head>
 <body>
 
+<!-- ── HOME ── -->
+<div class="home-view" id="home-view">
+  <div class="home-brand">
+    <div class="home-logo">Matematik</div>
+    <div class="home-logo-sub">Träning &amp; Övning · Lgr22</div>
+  </div>
+  <h1 class="home-heading">Välj din <em>årskurs</em></h1>
+  <div class="grade-cards">
+    <button class="grade-card" onclick="App.selectGrade(4)">
+      <div class="grade-card-num">4</div>
+      <div class="grade-card-name">Årskurs 4</div>
+      <div class="grade-card-status">Kommande</div>
+    </button>
+    <button class="grade-card featured" onclick="App.selectGrade(5)">
+      <div class="grade-card-num">5</div>
+      <div class="grade-card-name">Årskurs 5</div>
+      <div class="grade-card-status" id="home-grade5-status">141 uppgifter</div>
+    </button>
+    <button class="grade-card" onclick="App.selectGrade(6)">
+      <div class="grade-card-num">6</div>
+      <div class="grade-card-name">Årskurs 6</div>
+      <div class="grade-card-status">Kommande</div>
+    </button>
+  </div>
+</div>
+
 <!-- ── SIDEBAR ── -->
 <aside class="sidebar">
   <div class="sidebar-logo">
@@ -34,7 +60,7 @@
       </div>
     </div>
 
-    <div class="nav-grade open" id="grade5">
+    <div class="nav-grade" id="grade5">
       <button class="nav-grade-btn" onclick="App.toggleGrade('grade5')">
         <span class="grade-num">5</span>
         <span class="grade-label">Årskurs 5</span>
@@ -67,13 +93,15 @@
   <div class="sidebar-footer">Lgr22 · Matematik</div>
 </aside>
 
-<!-- ── MAIN ── -->
-<main class="main">
+<!-- ── GRADE VIEW ── -->
+<main class="main" id="grade-view" style="display:none">
   <div class="topbar">
     <div class="breadcrumb">
-      Årskurs <span>5</span>
+      <button class="btn-home" onclick="App.goHome()">Alla klasser</button>
       <span class="breadcrumb-sep">›</span>
-      <span>Taluppfattning &amp; huvudräkning</span>
+      Årskurs <span id="breadcrumb-grade">5</span>
+      <span class="breadcrumb-sep">›</span>
+      <span id="breadcrumb-topic">Taluppfattning &amp; huvudräkning</span>
     </div>
     <div class="topbar-actions">
       <button class="btn-secondary">Förhandsgranska</button>
@@ -83,11 +111,11 @@
 
   <div class="page-body">
     <header class="page-header">
-      <div class="page-kicker">Årskurs 5</div>
+      <div class="page-kicker" id="page-kicker">Årskurs 5</div>
       <h1 class="page-title">Taluppfattning<br>&amp; <em>huvudräkning</em></h1>
       <p class="page-desc">Digitala övningsuppgifter inom taluppfattning och mental aritmetik — redo att användas direkt i klassrummet.</p>
       <svg class="header-ornament" viewBox="0 0 180 180" fill="none" aria-hidden="true">
-        <text x="10" y="160" font-family="'Cormorant Garamond', serif" font-size="180" font-weight="300" fill="currentColor">5</text>
+        <text x="10" y="160" font-family="'Cormorant Garamond', serif" font-size="180" font-weight="300" fill="currentColor" id="ornament-num">5</text>
       </svg>
     </header>
 
@@ -104,7 +132,7 @@
       </div>
       <div class="stat-card accent">
         <div class="stat-card-label">Aktivt område</div>
-        <div class="stat-card-value">Åk 5</div>
+        <div class="stat-card-value" id="stat-grade">Åk 5</div>
         <div class="stat-card-sub">Taluppfattning</div>
       </div>
     </div>
