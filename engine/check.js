@@ -9,8 +9,11 @@ export function parseVal(s) {
 }
 
 export function checkAnswer(input, correct) {
-  const iv = parseVal(input);
-  const cv = parseVal(correct);
+  const s = String(input).trim().replace(',', '.').toLowerCase();
+  const c = String(correct).trim().replace(',', '.').toLowerCase();
+  if (s === c) return true;
+  const iv = parseVal(s);
+  const cv = parseVal(c);
   if (isNaN(iv) || isNaN(cv)) return false;
   return Math.abs(iv - cv) < 0.00001;
 }

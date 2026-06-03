@@ -2,6 +2,7 @@ import { exState, wsScore, findQ } from '../engine/state.js';
 import { checkAnswer } from '../engine/check.js';
 import { renderAccordion, renderQuestion, fmtAnswer, renderMath } from '../engine/render.js';
 import grade5Taluppfattning from '../data/grade5/taluppfattning.js';
+import grade6Taluppfattning from '../data/grade6/taluppfattning.js';
 
 const LS_KEY = 'matematik_exstate';
 
@@ -18,9 +19,10 @@ function saveState() {
   } catch (_) {}
 }
 
-// Grade worksheets registry — add more grades here as data is created
+// Grade worksheets registry
 const GRADE_WORKSHEETS = {
-  5: [...grade5Taluppfattning]
+  5: [...grade5Taluppfattning],
+  6: [...grade6Taluppfattning]
 };
 
 let WORKSHEETS = [];
@@ -43,12 +45,14 @@ function updateTopicProgress() {
 
 // ── Home screen ───────────────────────────────────────────────────────────────
 function updateHomeProgress() {
-  const ws5   = GRADE_WORKSHEETS[5] || [];
-  const total = ws5.reduce((s, ws) => s + ws.questions.length, 0);
-  const done  = ws5.reduce((s, ws) =>
-    s + ws.questions.filter(q => exState[q.id]?.correct === true).length, 0);
-  const el = document.getElementById('home-grade5-status');
-  if (el) el.textContent = done > 0 ? `${done}/${total} klara` : `${total} uppgifter`;
+  [5, 6].forEach(grade => {
+    const wsList = GRADE_WORKSHEETS[grade] || [];
+    const total  = wsList.reduce((s, ws) => s + ws.questions.length, 0);
+    const done   = wsList.reduce((s, ws) =>
+      s + ws.questions.filter(q => exState[q.id]?.correct === true).length, 0);
+    const el = document.getElementById(`home-grade${grade}-status`);
+    if (el) el.textContent = done > 0 ? `${done}/${total} klara` : `${total} uppgifter`;
+  });
 }
 
 // ── Grade selection ───────────────────────────────────────────────────────────
@@ -90,7 +94,7 @@ function selectGrade(grade) {
   document.getElementById('tag-uppgifter').textContent  = total + ' uppgifter';
   document.getElementById('panel-badge').textContent    = total + ' uppgifter';
 
-  toggleWs('ab1');
+  if (WORKSHEETS.length > 0) toggleWs(WORKSHEETS[0].id);
   updateTopicProgress();
 }
 
