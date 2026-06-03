@@ -3,807 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Matematik — Träning & Övning</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --cream:      #F7F4EE;
-    --cream-dark: #EDE8DE;
-    --sage:       #8FA890;
-    --sage-light: #C8D8C9;
-    --sage-dark:  #4A6B4D;
-    --warm-gray:  #9C9589;
-    --ink:        #2A2720;
-    --ink-soft:   #5C564E;
-    --gold:       #B8975A;
-    --gold-light: #E8D9B8;
-    --white:      #FDFCFA;
-    --shadow:     rgba(42,39,32,0.08);
-  }
-
-  html { font-size: 16px; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background-color: var(--cream);
-    color: var(--ink);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    position: fixed;
-    left: 0; top: 0; bottom: 0;
-    width: 260px;
-    background: var(--white);
-    border-right: 1px solid var(--cream-dark);
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .sidebar-logo {
-    padding: 36px 28px 28px;
-    border-bottom: 1px solid var(--cream-dark);
-  }
-
-  .logo-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-    color: var(--ink);
-    line-height: 1.2;
-  }
-
-  .logo-subtitle {
-    font-size: 11px;
-    font-weight: 300;
-    color: var(--warm-gray);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-
-  .sidebar-nav {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 0;
-    scrollbar-width: none;
-  }
-  .sidebar-nav::-webkit-scrollbar { display: none; }
-
-  .nav-section-label {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    padding: 12px 28px 6px;
-  }
-
-  .nav-grade {
-    margin-bottom: 4px;
-  }
-
-  .nav-grade-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 10px 28px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--ink-soft);
-    text-align: left;
-    transition: color 0.2s;
-    position: relative;
-  }
-
-  .nav-grade-btn:hover { color: var(--ink); }
-
-  .nav-grade-btn .grade-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 300;
-    color: var(--sage);
-    margin-right: 10px;
-    line-height: 1;
-  }
-
-  .nav-grade-btn .grade-label { flex: 1; }
-
-  .nav-grade-btn .chevron {
-    width: 16px; height: 16px;
-    border-right: 1.5px solid var(--warm-gray);
-    border-bottom: 1.5px solid var(--warm-gray);
-    transform: rotate(45deg) translateY(-3px);
-    transition: transform 0.25s, border-color 0.2s;
-    flex-shrink: 0;
-  }
-
-  .nav-grade.open .chevron {
-    transform: rotate(-135deg) translateY(-3px);
-  }
-
-  .nav-subitems {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .nav-grade.open .nav-subitems {
-    max-height: 400px;
-  }
-
-  .nav-subitem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 28px 8px 52px;
-    font-size: 13px;
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    border-left: 2px solid transparent;
-    margin-left: 0;
-    position: relative;
-  }
-
-  .nav-subitem::before {
-    content: '';
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--cream-dark);
-    flex-shrink: 0;
-    transition: background 0.15s;
-  }
-
-  .nav-subitem:hover {
-    background: var(--cream);
-    color: var(--ink);
-  }
-  .nav-subitem:hover::before { background: var(--sage); }
-
-  .nav-subitem.active {
-    color: var(--sage-dark);
-    background: color-mix(in srgb, var(--sage-light) 30%, transparent);
-  }
-  .nav-subitem.active::before { background: var(--sage-dark); }
-
-  .sidebar-footer {
-    padding: 20px 28px;
-    border-top: 1px solid var(--cream-dark);
-    font-size: 11px;
-    color: var(--warm-gray);
-    letter-spacing: 0.04em;
-  }
-
-  /* ── MAIN CONTENT ── */
-  .main {
-    margin-left: 260px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── TOP BAR ── */
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 48px;
-    height: 68px;
-    background: var(--white);
-    border-bottom: 1px solid var(--cream-dark);
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--warm-gray);
-  }
-
-  .breadcrumb span { color: var(--ink); font-weight: 400; }
-
-  .breadcrumb-sep {
-    font-size: 12px;
-    opacity: 0.5;
-  }
-
-  .topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .btn-secondary {
-    padding: 8px 18px;
-    background: none;
-    border: 1px solid var(--cream-dark);
-    border-radius: 40px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-  }
-  .btn-secondary:hover {
-    border-color: var(--sage);
-    color: var(--ink);
-    background: color-mix(in srgb, var(--sage-light) 20%, transparent);
-  }
-
-  .btn-primary {
-    padding: 8px 22px;
-    background: var(--sage-dark);
-    border: none;
-    border-radius: 40px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--white);
-    cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
-    letter-spacing: 0.02em;
-  }
-  .btn-primary:hover {
-    background: var(--ink);
-    transform: translateY(-1px);
-  }
-
-  /* ── PAGE BODY ── */
-  .page-body {
-    flex: 1;
-    padding: 52px 48px;
-    max-width: 960px;
-  }
-
-  /* ── HERO HEADER ── */
-  .page-header {
-    margin-bottom: 52px;
-    position: relative;
-  }
-
-  .page-kicker {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--sage-dark);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .page-kicker::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 1px;
-    background: var(--sage-dark);
-  }
-
-  .page-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 52px;
-    font-weight: 300;
-    line-height: 1.08;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-    max-width: 520px;
-  }
-
-  .page-title em {
-    font-style: italic;
-    color: var(--sage-dark);
-  }
-
-  .page-desc {
-    margin-top: 18px;
-    font-size: 15px;
-    font-weight: 300;
-    color: var(--ink-soft);
-    line-height: 1.7;
-    max-width: 440px;
-  }
-
-  .header-ornament {
-    position: absolute;
-    right: 0; top: 0;
-    width: 180px; height: 180px;
-    opacity: 0.07;
-    pointer-events: none;
-  }
-
-  /* ── STAT ROW ── */
-  .stat-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 48px;
-  }
-
-  .stat-card {
-    background: var(--white);
-    border: 1px solid var(--cream-dark);
-    border-radius: 16px;
-    padding: 22px 24px;
-    transition: border-color 0.2s, transform 0.2s;
-    cursor: default;
-  }
-
-  .stat-card:hover {
-    border-color: var(--sage-light);
-    transform: translateY(-2px);
-  }
-
-  .stat-card-label {
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    margin-bottom: 10px;
-  }
-
-  .stat-card-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
-    font-weight: 300;
-    color: var(--ink);
-    line-height: 1;
-  }
-
-  .stat-card-sub {
-    font-size: 12px;
-    color: var(--warm-gray);
-    margin-top: 6px;
-  }
-
-  .stat-card.accent {
-    background: var(--sage-dark);
-    border-color: var(--sage-dark);
-  }
-  .stat-card.accent .stat-card-label { color: var(--sage-light); }
-  .stat-card.accent .stat-card-value { color: var(--white); }
-  .stat-card.accent .stat-card-sub { color: var(--sage-light); }
-
-  /* ── SECTION HEADING ── */
-  .section-heading {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
-    font-weight: 400;
-    color: var(--ink);
-    letter-spacing: 0.01em;
-  }
-
-  .section-link {
-    font-size: 12px;
-    color: var(--warm-gray);
-    text-decoration: none;
-    letter-spacing: 0.06em;
-    border-bottom: 1px solid var(--cream-dark);
-    padding-bottom: 1px;
-    transition: color 0.2s, border-color 0.2s;
-    cursor: pointer;
-  }
-  .section-link:hover { color: var(--sage-dark); border-color: var(--sage); }
-
-  /* ── TOPIC CARDS GRID ── */
-  .topics-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-bottom: 48px;
-  }
-
-  .topic-card {
-    background: var(--white);
-    border: 1px solid var(--cream-dark);
-    border-radius: 20px;
-    padding: 28px 28px 24px;
-    cursor: pointer;
-    transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .topic-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--sage-light);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .topic-card:hover {
-    border-color: var(--sage-light);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px var(--shadow);
-  }
-
-  .topic-card:hover::before { transform: scaleX(1); }
-
-  .topic-card.active {
-    border-color: var(--sage);
-  }
-  .topic-card.active::before { transform: scaleX(1); background: var(--sage-dark); }
-
-  .topic-card-icon {
-    width: 44px; height: 44px;
-    background: var(--cream);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: var(--sage-dark);
-  }
-
-  .topic-card-name {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 6px;
-  }
-
-  .topic-card-desc {
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--warm-gray);
-    line-height: 1.6;
-  }
-
-  .topic-card-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 16px;
-    padding-top: 14px;
-    border-top: 1px solid var(--cream-dark);
-  }
-
-  .meta-tag {
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--warm-gray);
-    background: var(--cream);
-    padding: 3px 10px;
-    border-radius: 20px;
-  }
-
-  .meta-tag.active-tag {
-    background: color-mix(in srgb, var(--sage-light) 40%, transparent);
-    color: var(--sage-dark);
-  }
-
-  /* ── ACTIVE MODULE PANEL ── */
-  .module-panel {
-    background: var(--white);
-    border: 1px solid var(--cream-dark);
-    border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 48px;
-  }
-
-  .module-panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 32px;
-    border-bottom: 1px solid var(--cream-dark);
-    background: color-mix(in srgb, var(--cream) 50%, var(--white));
-  }
-
-  .module-panel-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: var(--ink);
-  }
-
-  .module-panel-badge {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background: var(--sage-dark);
-    color: var(--white);
-    padding: 4px 14px;
-    border-radius: 20px;
-  }
-
-  .module-panel-body {
-    padding: 40px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 180px;
-  }
-
-  .empty-state {
-    text-align: center;
-  }
-
-  .empty-state-icon {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 48px;
-    font-weight: 300;
-    color: var(--cream-dark);
-    line-height: 1;
-    margin-bottom: 12px;
-  }
-
-  .empty-state-text {
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--warm-gray);
-    line-height: 1.6;
-  }
-
-  /* ── DIVIDER ── */
-  .divider {
-    height: 1px;
-    background: var(--cream-dark);
-    margin: 0 0 40px;
-  }
-
-  /* ── FOOTER ── */
-  .page-footer {
-    margin-top: auto;
-    padding: 20px 48px;
-    border-top: 1px solid var(--cream-dark);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 11px;
-    color: var(--warm-gray);
-    letter-spacing: 0.06em;
-    background: var(--white);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .page-header { animation: fadeUp 0.5s ease both; }
-  .stat-row    { animation: fadeUp 0.5s 0.1s ease both; }
-  .topics-grid { animation: fadeUp 0.5s 0.2s ease both; }
-  .module-panel { animation: fadeUp 0.5s 0.3s ease both; }
-
-  /* ── EXERCISE AREA ── */
-  .module-panel-body.exercise-area {
-    display: block;
-    padding: 0;
-    min-height: auto;
-  }
-
-  .ws-accordion { border-bottom: 1px solid var(--cream-dark); }
-  .ws-accordion:last-child { border-bottom: none; }
-
-  .ws-acc-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 16px 32px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.15s;
-  }
-  .ws-acc-header:hover { background: var(--cream); }
-
-  .ws-acc-left { display: flex; align-items: center; gap: 14px; }
-
-  .ws-acc-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-weight: 300;
-    color: var(--sage);
-    width: 22px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  .ws-acc-name { font-size: 13px; font-weight: 400; color: var(--ink); }
-
-  .ws-acc-right { display: flex; align-items: center; gap: 14px; }
-
-  .ws-prog-mini {
-    width: 48px; height: 3px;
-    background: var(--cream-dark);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .ws-prog-mini-fill {
-    height: 3px;
-    border-radius: 2px;
-    background: var(--sage);
-    transition: width 0.35s;
-  }
-
-  .ws-acc-score { font-size: 11px; color: var(--warm-gray); white-space: nowrap; }
-  .ws-acc-score.done { color: var(--sage-dark); font-weight: 500; }
-
-  .ws-acc-chevron {
-    width: 12px; height: 12px;
-    border-right: 1.5px solid var(--warm-gray);
-    border-bottom: 1.5px solid var(--warm-gray);
-    transform: rotate(45deg) translateY(-3px);
-    transition: transform 0.25s;
-    flex-shrink: 0;
-  }
-  .ws-accordion.open .ws-acc-chevron { transform: rotate(-135deg) translateY(-3px); }
-
-  .ws-acc-body {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-    background: color-mix(in srgb, var(--cream) 45%, var(--white));
-  }
-
-  .ws-acc-inner { padding: 8px 32px 24px; }
-
-  /* Question cards */
-  .ex-group-lbl {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    padding: 16px 0 8px;
-  }
-
-  .ex-qcard {
-    background: var(--white);
-    border: 1px solid var(--cream-dark);
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-bottom: 8px;
-    border-left: 3px solid transparent;
-    transition: border-left-color 0.2s;
-  }
-  .ex-qcard.ok  { border-left-color: var(--sage); }
-  .ex-qcard.err { border-left-color: var(--gold); }
-
-  .ex-qtext {
-    font-size: 15px;
-    font-weight: 300;
-    color: var(--ink);
-    margin-bottom: 14px;
-    line-height: 1.7;
-  }
-
-  /* Fraction display */
-  .frac {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    vertical-align: middle;
-    margin: 0 2px;
-    font-family: 'Cormorant Garamond', serif;
-    line-height: 1;
-  }
-  .frac .num {
-    border-bottom: 1px solid currentColor;
-    padding: 0 3px 1px;
-    font-size: 0.92em;
-    line-height: 1.3;
-  }
-  .frac .den { padding: 1px 3px 0; font-size: 0.92em; line-height: 1.3; }
-
-  .ex-input-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-
-  .ex-input {
-    border: 1px solid var(--cream-dark);
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--ink);
-    background: var(--white);
-    width: 120px;
-    outline: none;
-    transition: border-color 0.15s;
-    -webkit-appearance: none;
-  }
-  .ex-input:focus { border-color: var(--sage); }
-  .ex-input.ok  { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 25%, white); }
-  .ex-input.err { border-color: var(--gold); background: color-mix(in srgb, var(--gold-light) 35%, white); }
-  .ex-input[readonly] { cursor: default; }
-
-  .ex-check-btn {
-    padding: 7px 18px;
-    background: var(--sage-dark);
-    border: none;
-    border-radius: 40px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--white);
-    cursor: pointer;
-    letter-spacing: 0.02em;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .ex-check-btn:hover { background: var(--ink); transform: translateY(-1px); }
-
-  .ex-retry-btn {
-    padding: 6px 16px;
-    background: none;
-    border: 1px solid var(--cream-dark);
-    border-radius: 40px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .ex-retry-btn:hover { border-color: var(--sage-light); color: var(--ink); }
-
-  .ex-choices { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  .ex-choice {
-    border: 1px solid var(--cream-dark);
-    border-radius: 40px;
-    padding: 7px 18px;
-    font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
-    background: var(--white);
-    color: var(--ink);
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    display: flex;
-    align-items: center;
-  }
-  .ex-choice:hover:not(:disabled) { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 20%, white); }
-  .ex-choice.selected { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 20%, white); }
-  .ex-choice.ok  { border-color: var(--sage-dark); background: color-mix(in srgb, var(--sage-light) 30%, white); color: var(--sage-dark); font-weight: 500; }
-  .ex-choice.err { border-color: var(--gold); background: color-mix(in srgb, var(--gold-light) 35%, white); color: var(--ink-soft); }
-  .ex-choice:disabled { cursor: default; }
-
-  .ex-feedback { margin-top: 8px; font-size: 12px; font-weight: 300; }
-  .ex-feedback.ok  { color: var(--sage-dark); }
-  .ex-feedback.err { color: var(--gold); }
-
-  .ex-hint { margin-top: 4px; font-size: 11px; color: var(--warm-gray); font-style: italic; }
-</style>
+<title>Matematik — Träning &amp; Övning</title>
+<link rel="stylesheet" href="style/base.css">
+<link rel="stylesheet" href="style/exercise.css">
 </head>
 <body>
 
@@ -813,71 +15,60 @@
     <div class="logo-title">Matematik</div>
     <div class="logo-subtitle">Träning &amp; Övning</div>
   </div>
-
   <nav class="sidebar-nav" aria-label="Kursnavigation">
-
     <div class="nav-section-label">Årsklasser</div>
 
-    <!-- Grade 4 -->
     <div class="nav-grade" id="grade4">
-      <button class="nav-grade-btn" onclick="toggleGrade('grade4')">
+      <button class="nav-grade-btn" onclick="App.toggleGrade('grade4')">
         <span class="grade-num">4</span>
         <span class="grade-label">Årskurs 4</span>
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem" onclick="selectItem(this)">Taluppfattning &amp; huvudräkning</div>
-        <div class="nav-subitem" onclick="selectItem(this)">De fyra räknesätten</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Tid och statistik</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Numerisk räkning</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Geometri</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Volym och vikt</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Taluppfattning &amp; huvudräkning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">De fyra räknesätten</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Tid och statistik</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Numerisk räkning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Geometri</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Volym och vikt</div>
       </div>
     </div>
 
-    <!-- Grade 5 -->
     <div class="nav-grade open" id="grade5">
-      <button class="nav-grade-btn" onclick="toggleGrade('grade5')">
+      <button class="nav-grade-btn" onclick="App.toggleGrade('grade5')">
         <span class="grade-num">5</span>
         <span class="grade-label">Årskurs 5</span>
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem active" onclick="selectItem(this)">Taluppfattning &amp; huvudräkning</div>
-        <div class="nav-subitem" onclick="selectItem(this)">De fyra räknesätten</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Tid och statistik</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Numerisk räkning</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Geometri</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Volym och vikt</div>
+        <div class="nav-subitem active" onclick="App.selectItem(this)">Taluppfattning &amp; huvudräkning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">De fyra räknesätten</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Tid och statistik</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Numerisk räkning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Geometri</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Volym och vikt</div>
       </div>
     </div>
 
-    <!-- Grade 6 -->
     <div class="nav-grade" id="grade6">
-      <button class="nav-grade-btn" onclick="toggleGrade('grade6')">
+      <button class="nav-grade-btn" onclick="App.toggleGrade('grade6')">
         <span class="grade-num">6</span>
         <span class="grade-label">Årskurs 6</span>
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem" onclick="selectItem(this)">Taluppfattning och huvudräkning</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Bråk och procent</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Samband, uttryck och ekvationer</div>
-        <div class="nav-subitem" onclick="selectItem(this)">Med sikte på framtiden</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Taluppfattning och huvudräkning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Bråk och procent</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Samband, uttryck och ekvationer</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Med sikte på framtiden</div>
       </div>
     </div>
-
   </nav>
-
-  <div class="sidebar-footer">
-    Lgr22 · Matematik
-  </div>
+  <div class="sidebar-footer">Lgr22 · Matematik</div>
 </aside>
 
 <!-- ── MAIN ── -->
 <main class="main">
-
-  <!-- Top bar -->
   <div class="topbar">
     <div class="breadcrumb">
       Årskurs <span>5</span>
@@ -890,22 +81,16 @@
     </div>
   </div>
 
-  <!-- Page body -->
   <div class="page-body">
-
-    <!-- Hero header -->
     <header class="page-header">
       <div class="page-kicker">Årskurs 5</div>
       <h1 class="page-title">Taluppfattning<br>&amp; <em>huvudräkning</em></h1>
-      <p class="page-desc">Bygg upp och hantera digitala övningsuppgifter inom taluppfattning och mental aritmetik — redo att användas direkt i klassrummet.</p>
-
-      <!-- Decorative number -->
-      <svg class="header-ornament" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <text x="10" y="160" font-family="'Cormorant Garamond', serif" font-size="180" font-weight="300" fill="var(--ink)">5</text>
+      <p class="page-desc">Digitala övningsuppgifter inom taluppfattning och mental aritmetik — redo att användas direkt i klassrummet.</p>
+      <svg class="header-ornament" viewBox="0 0 180 180" fill="none" aria-hidden="true">
+        <text x="10" y="160" font-family="'Cormorant Garamond', serif" font-size="180" font-weight="300" fill="currentColor">5</text>
       </svg>
     </header>
 
-    <!-- Stats -->
     <div class="stat-row">
       <div class="stat-card">
         <div class="stat-card-label">Uppgifter</div>
@@ -924,14 +109,13 @@
       </div>
     </div>
 
-    <!-- Topics -->
     <div class="section-heading">
       <h2 class="section-title">Delområden</h2>
       <span class="section-link">Visa alla</span>
     </div>
 
     <div class="topics-grid">
-      <div class="topic-card active" onclick="selectTopic(this)">
+      <div class="topic-card active" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">N</div>
         <div class="topic-card-name">Taluppfattning &amp; huvudräkning</div>
         <div class="topic-card-desc">Positionssystemet, tallinjen, avrundning och mentala räknestrategier.</div>
@@ -940,56 +124,40 @@
           <span class="meta-tag" id="tag-uppgifter">— uppgifter</span>
         </div>
       </div>
-
-      <div class="topic-card" onclick="selectTopic(this)">
+      <div class="topic-card" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">±</div>
         <div class="topic-card-name">De fyra räknesätten</div>
         <div class="topic-card-desc">Addition, subtraktion, multiplikation och division med hela tal och decimaltal.</div>
-        <div class="topic-card-meta">
-          <span class="meta-tag">0 uppgifter</span>
-        </div>
+        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
       </div>
-
-      <div class="topic-card" onclick="selectTopic(this)">
+      <div class="topic-card" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">t</div>
         <div class="topic-card-name">Tid och statistik</div>
         <div class="topic-card-desc">Klockan, tidsenheter, diagram, tabeller och att tolka data.</div>
-        <div class="topic-card-meta">
-          <span class="meta-tag">0 uppgifter</span>
-        </div>
+        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
       </div>
-
-      <div class="topic-card" onclick="selectTopic(this)">
+      <div class="topic-card" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">#</div>
         <div class="topic-card-name">Numerisk räkning</div>
         <div class="topic-card-desc">Algoritmer, skriftliga metoder och räkning med större tal.</div>
-        <div class="topic-card-meta">
-          <span class="meta-tag">0 uppgifter</span>
-        </div>
+        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
       </div>
-
-      <div class="topic-card" onclick="selectTopic(this)">
+      <div class="topic-card" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">△</div>
         <div class="topic-card-name">Geometri</div>
         <div class="topic-card-desc">Former, vinklar, symmetri, area och omkrets.</div>
-        <div class="topic-card-meta">
-          <span class="meta-tag">0 uppgifter</span>
-        </div>
+        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
       </div>
-
-      <div class="topic-card" onclick="selectTopic(this)">
+      <div class="topic-card" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">◻</div>
         <div class="topic-card-name">Volym och vikt</div>
         <div class="topic-card-desc">Enheter för volym och massa, mätning och omvandlingar.</div>
-        <div class="topic-card-meta">
-          <span class="meta-tag">0 uppgifter</span>
-        </div>
+        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
       </div>
     </div>
 
     <div class="divider"></div>
 
-    <!-- Active module panel -->
     <div class="section-heading">
       <h2 class="section-title">Aktivt område</h2>
     </div>
@@ -1001,500 +169,14 @@
       </div>
       <div class="module-panel-body exercise-area" id="exercise-panel"></div>
     </div>
-
   </div>
 
-  <!-- Page footer -->
   <footer class="page-footer">
     <span>Matematik · Träning &amp; Övning</span>
     <span>Lgr22 · Kursplan matematik</span>
   </footer>
-
 </main>
 
-<script>
-  // ── EXERCISE DATA ────────────────────────────────────────────────────────────
-  const WORKSHEETS = [
-    {
-      id:'ab1', label:'1', title:'Tal i bråkform (I)',
-      questions:[
-        {id:'1-1a', g:'1. Skriv med siffror', t:'Hur skriver man "en halv" med siffror?', a:'1/2', hint:'Skriv som bråk, t.ex. 3/4'},
-        {id:'1-1b', g:'1. Skriv med siffror', t:'Hur skriver man "en tredjedel" med siffror?', a:'1/3'},
-        {id:'1-1c', g:'1. Skriv med siffror', t:'Hur skriver man "två femtedelar" med siffror?', a:'2/5'},
-        {id:'1-3a', g:'3. Vilket tal är x?', t:'x/5 = 1 &nbsp;→&nbsp; x =', a:'5'},
-        {id:'1-3b', g:'3. Vilket tal är x?', t:'3/x = 1 &nbsp;→&nbsp; x =', a:'3'},
-        {id:'1-3c', g:'3. Vilket tal är x?', t:'1 = x/10 &nbsp;→&nbsp; x =', a:'10'},
-        {id:'1-4a', g:'4. Vilket tal är störst?', t:'Vilket tal är störst: 1/3 eller 1/4?', a:'1/3', choices:['1/3','1/4']},
-        {id:'1-4b', g:'4. Vilket tal är störst?', t:'Vilket tal är störst: 1/7 eller 1/5?', a:'1/5', choices:['1/7','1/5']},
-        {id:'1-4c', g:'4. Vilket tal är störst?', t:'Vilket tal är störst: 2/3 eller 2/5?', a:'2/3', choices:['2/3','2/5']},
-        {id:'1-5a', g:'5. Hur stor andel av skolvägen är kvar?', t:'Du har gått 1/3 av skolvägen. Hur stor andel är kvar?', a:'2/3'},
-        {id:'1-5b', g:'5. Hur stor andel av skolvägen är kvar?', t:'Du har gått 3/7 av skolvägen. Hur stor andel är kvar?', a:'4/7'},
-        {id:'1-5c', g:'5. Hur stor andel av skolvägen är kvar?', t:'Du har gått 4/9 av skolvägen. Hur stor andel är kvar?', a:'5/9'},
-        {id:'1-6a', g:'6. Räkna ut', t:'7/8 − 4/8 =', a:'3/8'},
-        {id:'1-6b', g:'6. Räkna ut', t:'5/12 + 6/12 =', a:'11/12'},
-        {id:'1-6c', g:'6. Räkna ut', t:'9/15 − 5/15 =', a:'4/15'},
-        {id:'1-7a', g:'7. Vilket bråk saknas?', t:'1 − 4/5 =', a:'1/5'},
-        {id:'1-7b', g:'7. Vilket bråk saknas?', t:'1/6 + ___ = 1', a:'5/6'},
-        {id:'1-7c', g:'7. Vilket bråk saknas?', t:'1 − ___ = 3/4', a:'1/4'},
-      ]
-    },
-    {
-      id:'ab2', label:'2', title:'Tal i bråkform (II)',
-      questions:[
-        {id:'2-6a', g:'6–7. Ringa in det största talet', t:'Vilket tal är störst: 1/2 eller 1/3?', a:'1/2', choices:['1/2','1/3']},
-        {id:'2-6b', g:'6–7. Ringa in det största talet', t:'Vilket tal är störst: 2/5 eller 3/5?', a:'3/5', choices:['2/5','3/5']},
-        {id:'2-7a', g:'6–7. Ringa in det största talet', t:'Vilket tal är störst: 1/4 eller 1/5?', a:'1/4', choices:['1/4','1/5']},
-        {id:'2-7b', g:'6–7. Ringa in det största talet', t:'Vilket tal är störst: 3/7 eller 3/8?', a:'3/7', choices:['3/7','3/8']},
-        {id:'2-8a', g:'8. Vilket tal är x?', t:'x + 2/3 = 1 &nbsp;→&nbsp; x =', a:'1/3'},
-        {id:'2-8b', g:'8. Vilket tal är x?', t:'1 − x = 4/5 &nbsp;→&nbsp; x =', a:'1/5'},
-        {id:'2-8c', g:'8. Vilket tal är x?', t:'1 = 3/4 + x &nbsp;→&nbsp; x =', a:'1/4'},
-        {id:'2-9a', g:'9. Vilket tal är x?', t:'1/5 + 1/5 + x = 1 &nbsp;→&nbsp; x =', a:'3/5'},
-        {id:'2-9b', g:'9. Vilket tal är x?', t:'4/7 = 1 − x &nbsp;→&nbsp; x =', a:'3/7'},
-        {id:'2-9c', g:'9. Vilket tal är x?', t:'x − 3/8 = 5/8 &nbsp;→&nbsp; x =', a:'1'},
-      ]
-    },
-    {
-      id:'ab3', label:'3', title:'Tiondelar, hundradelar och tusendelar',
-      questions:[
-        {id:'3-5a', g:'5. Skriv i decimalform', t:'4/10 =', a:'0.4'},
-        {id:'3-5b', g:'5. Skriv i decimalform', t:'24/100 =', a:'0.24'},
-        {id:'3-5c', g:'5. Skriv i decimalform', t:'245/1000 =', a:'0.245'},
-        {id:'3-6a', g:'6. Skriv i bråkform', t:'0,5 =', a:'5/10', hint:'Skriv t.ex. 5/10 eller 1/2'},
-        {id:'3-6b', g:'6. Skriv i bråkform', t:'0,05 =', a:'5/100'},
-        {id:'3-6c', g:'6. Skriv i bråkform', t:'0,005 =', a:'5/1000'},
-        {id:'3-7a', g:'7. Siffrornas värde i 0,347', t:'Vilken siffra är <strong>hundradelssiffran</strong> i 0,347?', a:'4'},
-        {id:'3-7b', g:'7. Siffrornas värde i 0,347', t:'Vilken siffra är <strong>tiondelssiffran</strong> i 0,347?', a:'3'},
-        {id:'3-8',  g:'8. Byt platser', t:'Byt plats på <strong>entalssiffran</strong> och <strong>hundradelssiffran</strong> i 0,875. Vilket tal får du?', a:'7.805'},
-        {id:'3-9a', g:'9. Vilket värde har siffran 7?', t:'Vilket värde har siffran 7 i 0,715?', a:'0.7'},
-        {id:'3-9b', g:'9. Vilket värde har siffran 7?', t:'Vilket värde har siffran 7 i 0,057?', a:'0.007'},
-        {id:'3-9c', g:'9. Vilket värde har siffran 7?', t:'Vilket värde har siffran 7 i 0,275?', a:'0.07'},
-        {id:'3-10a', g:'10. Vilket värde i 0,843?', t:'Vilket värde har siffran 4 i 0,843?', a:'0.04'},
-        {id:'3-10b', g:'10. Vilket värde i 0,843?', t:'Vilket värde har siffran 3 i 0,843?', a:'0.003'},
-        {id:'3-10c', g:'10. Vilket värde i 0,843?', t:'Vilket värde har siffran 8 i 0,843?', a:'0.8'},
-      ]
-    },
-    {
-      id:'ab4', label:'4', title:'Bråkform och decimalform (I)',
-      questions:[
-        {id:'4-1f',  g:'Skriv bråkform och decimalform', t:'En tiondel — skriv i <strong>bråkform</strong>:', a:'1/10'},
-        {id:'4-1d',  g:'Skriv bråkform och decimalform', t:'En tiondel — skriv i <strong>decimalform</strong>:', a:'0.1'},
-        {id:'4-2f',  g:'', t:'Fem tiondelar — bråkform:', a:'5/10'},
-        {id:'4-2d',  g:'', t:'Fem tiondelar — decimalform:', a:'0.5'},
-        {id:'4-3f',  g:'', t:'Nio tiondelar — bråkform:', a:'9/10'},
-        {id:'4-3d',  g:'', t:'Nio tiondelar — decimalform:', a:'0.9'},
-        {id:'4-4f',  g:'', t:'Tolv hundradelar — bråkform:', a:'12/100'},
-        {id:'4-4d',  g:'', t:'Tolv hundradelar — decimalform:', a:'0.12'},
-        {id:'4-5f',  g:'', t:'Tjugofem hundradelar — bråkform:', a:'25/100'},
-        {id:'4-5d',  g:'', t:'Tjugofem hundradelar — decimalform:', a:'0.25'},
-        {id:'4-6f',  g:'', t:'Två hundradelar — bråkform:', a:'2/100'},
-        {id:'4-6d',  g:'', t:'Två hundradelar — decimalform:', a:'0.02'},
-        {id:'4-7f',  g:'', t:'Två tiondelar — bråkform:', a:'2/10'},
-        {id:'4-7d',  g:'', t:'Två tiondelar — decimalform:', a:'0.2'},
-        {id:'4-8f',  g:'', t:'Sex tiondelar — bråkform:', a:'6/10'},
-        {id:'4-8d',  g:'', t:'Sex tiondelar — decimalform:', a:'0.6'},
-        {id:'4-9f',  g:'', t:'Sex tusendelar — bråkform:', a:'6/1000'},
-        {id:'4-9d',  g:'', t:'Sex tusendelar — decimalform:', a:'0.006'},
-        {id:'4-10f', g:'', t:'Femtiotre tusendelar — bråkform:', a:'53/1000'},
-        {id:'4-10d', g:'', t:'Femtiotre tusendelar — decimalform:', a:'0.053'},
-        {id:'4-11f', g:'', t:'Tre hundradelar — bråkform:', a:'3/100'},
-        {id:'4-11d', g:'', t:'Tre hundradelar — decimalform:', a:'0.03'},
-        {id:'4-12f', g:'', t:'Etthundratjugofem tusendelar — bråkform:', a:'125/1000'},
-        {id:'4-12d', g:'', t:'Etthundratjugofem tusendelar — decimalform:', a:'0.125'},
-      ]
-    },
-    {
-      id:'ab5', label:'5', title:'Bråkform och decimalform (II)',
-      questions:[
-        {id:'5-6a', g:'6. Vilket tal är x?', t:'0,25 = 1/x &nbsp;→&nbsp; x =', a:'4'},
-        {id:'5-6b', g:'6. Vilket tal är x?', t:'x/5 = 0,6 &nbsp;→&nbsp; x =', a:'3'},
-        {id:'5-6c', g:'6. Vilket tal är x?', t:'3/x = 0,75 &nbsp;→&nbsp; x =', a:'4'},
-        {id:'5-7a', g:'7. Vilket tal är störst?', t:'Vilket tal är störst: 10/100 eller 10/10?', a:'10/10', choices:['10/100','10/10']},
-        {id:'5-7b', g:'7. Vilket tal är störst?', t:'Vilket tal är störst: 1/2 eller 5/8?', a:'5/8', choices:['1/2','5/8']},
-        {id:'5-7c', g:'7. Vilket tal är störst?', t:'Vilket tal är störst: 0,2 eller 0,25?', a:'0.25', choices:['0,2','0,25']},
-        {id:'5-8a', g:'8. Vilket tal är y?', t:'y/5 = 0,4 &nbsp;→&nbsp; y =', a:'2'},
-        {id:'5-8b', g:'8. Vilket tal är y?', t:'0,8 = y/10 &nbsp;→&nbsp; y =', a:'8'},
-        {id:'5-8c', g:'8. Vilket tal är y?', t:'y/100 = 0,11 &nbsp;→&nbsp; y =', a:'11'},
-      ]
-    },
-    {
-      id:'ab8', label:'8', title:'Avrundning',
-      questions:[
-        {id:'8-1a', g:'1–2. Avrunda till heltal', t:'Avrunda 7,9 till närmaste heltal:', a:'8'},
-        {id:'8-1b', g:'1–2. Avrunda till heltal', t:'Avrunda 13,2 till närmaste heltal:', a:'13'},
-        {id:'8-1c', g:'1–2. Avrunda till heltal', t:'Avrunda 6,5 till närmaste heltal:', a:'7'},
-        {id:'8-2a', g:'1–2. Avrunda till heltal', t:'Avrunda 23,7 till närmaste heltal:', a:'24'},
-        {id:'8-2b', g:'1–2. Avrunda till heltal', t:'Avrunda 42,3 till närmaste heltal:', a:'42'},
-        {id:'8-2c', g:'1–2. Avrunda till heltal', t:'Avrunda 12,9 till närmaste heltal:', a:'13'},
-        {id:'8-3a', g:'3–4. Avrunda till tiotal', t:'Avrunda 84 till tiotal:', a:'80'},
-        {id:'8-3b', g:'3–4. Avrunda till tiotal', t:'Avrunda 67 till tiotal:', a:'70'},
-        {id:'8-3c', g:'3–4. Avrunda till tiotal', t:'Avrunda 125 till tiotal:', a:'130'},
-        {id:'8-4a', g:'3–4. Avrunda till tiotal', t:'Avrunda 52 till tiotal:', a:'50'},
-        {id:'8-4b', g:'3–4. Avrunda till tiotal', t:'Avrunda 388 till tiotal:', a:'390'},
-        {id:'8-4c', g:'3–4. Avrunda till tiotal', t:'Avrunda 198 till tiotal:', a:'200'},
-        {id:'8-5a', g:'5–6. Avrunda till hundratal', t:'Avrunda 313 till hundratal:', a:'300'},
-        {id:'8-5b', g:'5–6. Avrunda till hundratal', t:'Avrunda 295 till hundratal:', a:'300'},
-        {id:'8-5c', g:'5–6. Avrunda till hundratal', t:'Avrunda 728 till hundratal:', a:'700'},
-        {id:'8-6a', g:'5–6. Avrunda till hundratal', t:'Avrunda 3 191 till hundratal:', a:'3200'},
-        {id:'8-6b', g:'5–6. Avrunda till hundratal', t:'Avrunda 346 till hundratal:', a:'300'},
-        {id:'8-6c', g:'5–6. Avrunda till hundratal', t:'Avrunda 1 450 till hundratal:', a:'1500'},
-        {id:'8-7a', g:'7–8. Avrunda till tusental', t:'Avrunda 2 525 till tusental:', a:'3000'},
-        {id:'8-7b', g:'7–8. Avrunda till tusental', t:'Avrunda 7 105 till tusental:', a:'7000'},
-        {id:'8-7c', g:'7–8. Avrunda till tusental', t:'Avrunda 5 968 till tusental:', a:'6000'},
-        {id:'8-8a', g:'7–8. Avrunda till tusental', t:'Avrunda 10 199 till tusental:', a:'10000'},
-        {id:'8-8b', g:'7–8. Avrunda till tusental', t:'Avrunda 37 761 till tusental:', a:'38000'},
-        {id:'8-8c', g:'7–8. Avrunda till tusental', t:'Avrunda 29 934 till tusental:', a:'30000'},
-        {id:'8-9a', g:'9. Avrunda till hundradels kg', t:'Avrunda 1,345 kg till hundradels kilogram:', a:'1.35', hint:'Skriv t.ex. 1,35'},
-        {id:'8-9b', g:'9. Avrunda till hundradels kg', t:'Avrunda 2,852 kg till hundradels kilogram:', a:'2.85'},
-        {id:'8-9c', g:'9. Avrunda till hundradels kg', t:'Avrunda 1,989 kg till hundradels kilogram:', a:'1.99'},
-        {id:'8-10a', g:'10. Avrunda till tiondels m', t:'Avrunda 3,65 m till tiondels meter:', a:'3.7'},
-        {id:'8-10b', g:'10. Avrunda till tiondels m', t:'Avrunda 12,81 m till tiondels meter:', a:'12.8'},
-        {id:'8-10c', g:'10. Avrunda till tiondels m', t:'Avrunda 7,05 m till tiondels meter:', a:'7.1'},
-      ]
-    },
-    {
-      id:'ab9', label:'9', title:'Vi repeterar 1',
-      questions:[
-        {id:'9-2a', g:'2. Räkna ut', t:'1 − 3/4 =', a:'1/4'},
-        {id:'9-2b', g:'2. Räkna ut', t:'2/6 + 3/6 =', a:'5/6'},
-        {id:'9-2c', g:'2. Räkna ut', t:'1 − 5/8 =', a:'3/8'},
-        {id:'9-3a', g:'3. Skriv i centimeter', t:'75 mm = ___ cm', a:'7.5'},
-        {id:'9-3b', g:'3. Skriv i centimeter', t:'1,25 m = ___ cm', a:'125'},
-        {id:'9-3c', g:'3. Skriv i centimeter', t:'5 mm = ___ cm', a:'0.5'},
-        {id:'9-4a', g:'4. Avrunda priset till närmaste krona', t:'En vara kostar 24,90 kr. Hur mycket betalar du?', a:'25'},
-        {id:'9-4b', g:'4. Avrunda priset till närmaste krona', t:'En vara kostar 56,45 kr. Hur mycket betalar du?', a:'56'},
-        {id:'9-4c', g:'4. Avrunda priset till närmaste krona', t:'En vara kostar 16,90 kr. Hur mycket betalar du?', a:'17'},
-        {id:'9-5a', g:'5. Skriv bråken i decimalform', t:'7/10 =', a:'0.7'},
-        {id:'9-5b', g:'5. Skriv bråken i decimalform', t:'3/4 =', a:'0.75'},
-        {id:'9-5c', g:'5. Skriv bråken i decimalform', t:'3/5 =', a:'0.6'},
-        {id:'9-6a', g:'6. Vilket tal är störst?', t:'Vilket är störst: 2/3, 2/5 eller 2/6?', a:'2/3', choices:['2/3','2/5','2/6']},
-        {id:'9-6b', g:'6. Vilket tal är störst?', t:'Vilket är störst: 3/7, 4/7 eller 1?', a:'1', choices:['3/7','4/7','1']},
-        {id:'9-6c', g:'6. Vilket tal är störst?', t:'Vilket är störst: 3/5, 0,4 eller 1/2?', a:'3/5', choices:['3/5','0,4','1/2']},
-        {id:'9-7a', g:'7. Skriv i bråkform', t:'0,1 =', a:'1/10'},
-        {id:'9-7b', g:'7. Skriv i bråkform', t:'0,25 =', a:'1/4', hint:'T.ex. 1/4 eller 25/100'},
-        {id:'9-7c', g:'7. Skriv i bråkform', t:'0,023 =', a:'23/1000'},
-        {id:'9-8a', g:'8. Vilket tal är x?', t:'0,3 m + x cm = 75 cm &nbsp;→&nbsp; x = ___ cm', a:'45'},
-        {id:'9-8b', g:'8. Vilket tal är x?', t:'1,5 cm − x mm = 8 mm &nbsp;→&nbsp; x = ___ mm', a:'7'},
-        {id:'9-8c', g:'8. Vilket tal är x?', t:'1 kr − 0,65 kr = x öre &nbsp;→&nbsp; x = ___ öre', a:'35'},
-      ]
-    },
-    {
-      id:'ab10', label:'10', title:'Vi repeterar 2',
-      questions:[
-        {id:'10-1a', g:'1. Skriv med siffror', t:'Skriv "fyra sjättedelar" med siffror:', a:'4/6'},
-        {id:'10-1b', g:'1. Skriv med siffror', t:'Skriv "två sjundedelar" med siffror:', a:'2/7'},
-        {id:'10-2a', g:'2. Skriv i decimalform', t:'Tre tiondelar =', a:'0.3'},
-        {id:'10-2b', g:'2. Skriv i decimalform', t:'Tolv tusendelar =', a:'0.012'},
-        {id:'10-3a', g:'3. Byt platser i 0,715', t:'Byt plats på <strong>tiondelssiffran</strong> och <strong>tusendelssiffran</strong> i 0,715. Vilket tal får du?', a:'0.517'},
-        {id:'10-3b', g:'3. Byt platser i 0,715', t:'Byt plats på <strong>entalssiffran</strong> och <strong>hundradelssiffran</strong> i 0,715. Vilket tal får du?', a:'1.705'},
-        {id:'10-5a', g:'5. Avrunda till tusental kronor', t:'Avrunda 6 901 kr till tusental:', a:'7000'},
-        {id:'10-5b', g:'5. Avrunda till tusental kronor', t:'Avrunda 9 975 kr till tusental:', a:'10000'},
-        {id:'10-7a', g:'7. Vilket tal är x?', t:'x/5 + 1/5 + 2/5 = 1 &nbsp;→&nbsp; x =', a:'2'},
-        {id:'10-7b', g:'7. Vilket tal är x?', t:'1 − 3/7 − 4/7 = x &nbsp;→&nbsp; x =', a:'0'},
-        {id:'10-7c', g:'7. Vilket tal är x?', t:'1 − x/3 = 1/3 &nbsp;→&nbsp; x =', a:'2'},
-        {id:'10-8a', g:'8. Vilket tal är x?', t:'1/2 = x/10 &nbsp;→&nbsp; x =', a:'5'},
-        {id:'10-8b', g:'8. Vilket tal är x?', t:'0,75 = 3/x &nbsp;→&nbsp; x =', a:'4'},
-        {id:'10-8c', g:'8. Vilket tal är x?', t:'x/100 = 0,08 &nbsp;→&nbsp; x =', a:'8'},
-      ]
-    },
-  ];
-
-  // ── Exercise state & utils ────────────────────────────────────────────────────
-  const exState = {};
-
-  function ex_parseVal(s) {
-    s = String(s).trim().replace(',', '.');
-    if (s.includes('/')) {
-      const [n, d] = s.split('/').map(Number);
-      if (isNaN(n) || isNaN(d) || d === 0) return NaN;
-      return n / d;
-    }
-    return parseFloat(s);
-  }
-
-  function ex_check(input, correct) {
-    const iv = ex_parseVal(input), cv = ex_parseVal(correct);
-    if (isNaN(iv) || isNaN(cv)) return false;
-    return Math.abs(iv - cv) < 0.00001;
-  }
-
-  function ex_fmt(a) {
-    if (a.includes('/')) {
-      const [n, d] = a.split('/');
-      return `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;
-    }
-    return a.replace('.', ',');
-  }
-
-  function ex_math(text) {
-    return text.replace(/(\d+)\/(\d+)/g, (_, n, d) =>
-      `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`
-    );
-  }
-
-  function ex_wsScore(ws) {
-    const done = ws.questions.filter(q => exState[q.id]?.correct === true).length;
-    return { done, total: ws.questions.length };
-  }
-
-  function ex_findQ(qId) {
-    for (const ws of WORKSHEETS) {
-      const q = ws.questions.find(q => q.id === qId);
-      if (q) return q;
-    }
-    return null;
-  }
-
-  // ── Exercise render ───────────────────────────────────────────────────────────
-  function ex_init() {
-    const panel = document.getElementById('exercise-panel');
-    if (!panel) return;
-    panel.innerHTML = WORKSHEETS.map(ws => ex_renderAccordion(ws)).join('');
-
-    const total = WORKSHEETS.reduce((s, ws) => s + ws.questions.length, 0);
-    document.getElementById('stat-uppgifter').textContent = total;
-    document.getElementById('tag-uppgifter').textContent  = total + ' uppgifter';
-    document.getElementById('panel-badge').textContent    = total + ' uppgifter';
-
-    // Open first worksheet by default
-    ex_toggleWs('ab1');
-  }
-
-  function ex_renderAccordion(ws) {
-    const { done, total } = ex_wsScore(ws);
-    const pct = total > 0 ? (done / total) * 100 : 0;
-
-    const groups = [], seen = new Set();
-    for (const q of ws.questions) {
-      if (!seen.has(q.g)) { seen.add(q.g); groups.push(q.g); }
-    }
-
-    let qs = '';
-    for (const g of groups) {
-      if (g) qs += `<div class="ex-group-lbl">${g}</div>`;
-      ws.questions.filter(q => q.g === g).forEach(q => { qs += ex_renderQ(q); });
-    }
-
-    return `
-      <div class="ws-accordion" id="ws-${ws.id}">
-        <button class="ws-acc-header" onclick="ex_toggleWs('${ws.id}')">
-          <div class="ws-acc-left">
-            <span class="ws-acc-num">${ws.label}</span>
-            <span class="ws-acc-name">${ws.title}</span>
-          </div>
-          <div class="ws-acc-right">
-            <div class="ws-prog-mini">
-              <div class="ws-prog-mini-fill" id="pfill-${ws.id}" style="width:${pct}%"></div>
-            </div>
-            <span class="ws-acc-score${done===total&&total>0?' done':''}" id="pscore-${ws.id}">${done}/${total}</span>
-            <span class="ws-acc-chevron"></span>
-          </div>
-        </button>
-        <div class="ws-acc-body" id="wsbody-${ws.id}">
-          <div class="ws-acc-inner">${qs}</div>
-        </div>
-      </div>`;
-  }
-
-  function ex_renderQ(q) {
-    const s = exState[q.id];
-    const locked = s?.locked || false;
-    const cardCls = s?.correct === true ? 'ok' : s?.correct === false ? 'err' : '';
-
-    let inputHtml;
-    if (q.choices) {
-      inputHtml = `<div class="ex-choices" id="exc-${q.id}">${
-        q.choices.map(c => {
-          let cls = '';
-          if (locked) {
-            cls = ex_check(c.replace(',','.'), q.a) ? 'ok' : (s?.value===c ? 'err' : '');
-          } else if (s?.value===c) cls = 'selected';
-          return `<button class="ex-choice ${cls}" ${locked?'disabled':''} onclick="ex_selectChoice('${q.id}','${c.replace(/'/g,"\\'")}')">
-            ${ex_math(c)}
-          </button>`;
-        }).join('')
-      }</div>`;
-    } else {
-      const val = s?.value || '';
-      const iCls = s?.correct===true ? 'ok' : s?.correct===false ? 'err' : '';
-      inputHtml = `<div class="ex-input-row">
-        <input class="ex-input ${iCls}" id="exinp-${q.id}" type="text"
-          value="${val}" ${locked?'readonly':''}
-          placeholder="Svar"
-          onkeydown="if(event.key==='Enter') ex_checkQ('${q.id}')"
-          oninput="ex_clearFb('${q.id}')">
-        ${!locked
-          ? `<button class="ex-check-btn" onclick="ex_checkQ('${q.id}')">Kontrollera</button>`
-          : `<button class="ex-retry-btn" onclick="ex_retryQ('${q.id}')">Försök igen</button>`}
-      </div>`;
-    }
-
-    let fb = '';
-    if (s?.correct===true)  fb = `<div class="ex-feedback ok">Rätt</div>`;
-    if (s?.correct===false) fb = `<div class="ex-feedback err">Rätt svar: ${ex_fmt(q.a)}</div>`;
-    if (q.hint && !locked)  fb += `<div class="ex-hint">${q.hint}</div>`;
-
-    return `<div class="ex-qcard ${cardCls}" id="excard-${q.id}">
-      <div class="ex-qtext">${ex_math(q.t)}</div>
-      ${inputHtml}${fb}
-    </div>`;
-  }
-
-  // ── Interactions ──────────────────────────────────────────────────────────────
-  function ex_toggleWs(wsId) {
-    const acc  = document.getElementById('ws-' + wsId);
-    const body = document.getElementById('wsbody-' + wsId);
-    const isOpen = acc.classList.contains('open');
-    if (isOpen) {
-      body.style.maxHeight = body.scrollHeight + 'px';
-      requestAnimationFrame(() => { body.style.maxHeight = '0'; });
-      acc.classList.remove('open');
-    } else {
-      acc.classList.add('open');
-      body.style.maxHeight = body.scrollHeight + 'px';
-      setTimeout(() => { if (acc.classList.contains('open')) body.style.maxHeight = 'none'; }, 420);
-    }
-  }
-
-  function ex_selectChoice(qId, val) {
-    const q = ex_findQ(qId);
-    if (!q || exState[qId]?.locked) return;
-    exState[qId] = { value: val, correct: ex_check(val, q.a), locked: true };
-    ex_updateCard(q);
-  }
-
-  function ex_checkQ(qId) {
-    const q = ex_findQ(qId);
-    if (!q) return;
-    const inp = document.getElementById('exinp-' + qId);
-    const val = inp?.value.trim();
-    if (!val) return;
-    const correct = ex_check(val, q.a);
-    exState[qId] = { value: val, correct, locked: correct };
-    ex_updateCard(q);
-  }
-
-  function ex_retryQ(qId) {
-    const q = ex_findQ(qId);
-    if (!q) return;
-    exState[qId] = { value: '', correct: null, locked: false };
-    ex_updateCard(q);
-    setTimeout(() => { document.getElementById('exinp-' + qId)?.focus(); }, 50);
-  }
-
-  function ex_clearFb(qId) {
-    if (exState[qId]?.correct != null) {
-      exState[qId] = { value: '', correct: null, locked: false };
-      const inp  = document.getElementById('exinp-' + qId);
-      const card = document.getElementById('excard-' + qId);
-      if (inp)  inp.classList.remove('ok','err');
-      if (card) card.classList.remove('ok','err');
-    }
-  }
-
-  function ex_updateCard(q) {
-    const card = document.getElementById('excard-' + q.id);
-    if (!card) return;
-    const s = exState[q.id];
-
-    card.classList.remove('ok','err');
-    if (s.correct===true)  card.classList.add('ok');
-    if (s.correct===false) card.classList.add('err');
-
-    if (q.choices) {
-      const container = document.getElementById('exc-' + q.id);
-      if (container) {
-        container.innerHTML = q.choices.map(c => {
-          let cls = '';
-          if (s.locked) {
-            cls = ex_check(c.replace(',','.'), q.a) ? 'ok' : (s.value===c ? 'err' : '');
-          } else if (s.value===c) cls = 'selected';
-          return `<button class="ex-choice ${cls}" ${s.locked?'disabled':''} onclick="ex_selectChoice('${q.id}','${c.replace(/'/g,"\\'")}')">
-            ${ex_math(c)}
-          </button>`;
-        }).join('');
-      }
-    } else {
-      const inp = document.getElementById('exinp-' + q.id);
-      if (inp) {
-        inp.classList.remove('ok','err');
-        if (s.correct===true)  inp.classList.add('ok');
-        if (s.correct===false) inp.classList.add('err');
-        if (s.locked) inp.setAttribute('readonly',''); else inp.removeAttribute('readonly');
-        const btn = inp.nextElementSibling;
-        if (btn && !s.locked) {
-          btn.className = 'ex-check-btn';
-          btn.textContent = 'Kontrollera';
-          btn.onclick = () => ex_checkQ(q.id);
-        } else if (btn && s.locked) {
-          btn.className = 'ex-retry-btn';
-          btn.textContent = 'Försök igen';
-          btn.onclick = () => ex_retryQ(q.id);
-        }
-      }
-    }
-
-    card.querySelector('.ex-feedback')?.remove();
-    card.querySelector('.ex-hint')?.remove();
-    if (s.correct===true)  card.insertAdjacentHTML('beforeend', `<div class="ex-feedback ok">Rätt</div>`);
-    if (s.correct===false) card.insertAdjacentHTML('beforeend', `<div class="ex-feedback err">Rätt svar: ${ex_fmt(q.a)}</div>`);
-    if (q.hint && !s.locked) card.insertAdjacentHTML('beforeend', `<div class="ex-hint">${q.hint}</div>`);
-
-    // Update accordion score + progress
-    const ws = WORKSHEETS.find(w => w.questions.some(qq => qq.id === q.id));
-    if (ws) {
-      const { done, total } = ex_wsScore(ws);
-      const pct = (done / total) * 100;
-      const fill  = document.getElementById('pfill-' + ws.id);
-      const score = document.getElementById('pscore-' + ws.id);
-      if (fill)  fill.style.width = pct + '%';
-      if (score) { score.textContent = `${done}/${total}`; score.className = 'ws-acc-score' + (done===total?' done':''); }
-
-      // Recalculate accordion body height if open
-      const body = document.getElementById('wsbody-' + ws.id);
-      const acc  = document.getElementById('ws-' + ws.id);
-      if (acc?.classList.contains('open') && body?.style.maxHeight !== 'none') {
-        body.style.maxHeight = body.scrollHeight + 'px';
-      }
-    }
-  }
-
-  // ── Boot ──────────────────────────────────────────────────────────────────────
-  ex_init();
-
-  function toggleGrade(id) {
-    const el = document.getElementById(id);
-    const isOpen = el.classList.contains('open');
-    document.querySelectorAll('.nav-grade').forEach(g => g.classList.remove('open'));
-    if (!isOpen) el.classList.add('open');
-  }
-
-  function selectItem(el) {
-    document.querySelectorAll('.nav-subitem').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
-  }
-
-  function selectTopic(card) {
-    document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active'));
-    card.classList.add('active');
-    const name = card.querySelector('.topic-card-name').textContent;
-    document.querySelector('.module-panel-title').textContent = name;
-    document.querySelector('.stat-card.accent .stat-card-sub').textContent = name.length > 22 ? name.slice(0,22)+'…' : name;
-    document.querySelectorAll('.meta-tag.active-tag').forEach(t => {
-      t.classList.remove('active-tag');
-      t.textContent = '0 uppgifter';
-    });
-    const tags = card.querySelectorAll('.meta-tag');
-    if (tags.length === 1) {
-      const span = document.createElement('span');
-      span.className = 'meta-tag active-tag';
-      span.textContent = 'Aktivt';
-      card.querySelector('.topic-card-meta').prepend(span);
-    } else {
-      tags[0].classList.add('active-tag');
-      tags[0].textContent = 'Aktivt';
-    }
-  }
-</script>
-
+<script type="module" src="ui/main.js"></script>
 </body>
 </html>
