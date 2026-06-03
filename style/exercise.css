@@ -138,8 +138,8 @@
   -webkit-appearance: none;
 }
 .ex-input:focus { border-color: var(--sage); }
-.ex-input.ok  { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 25%, white); }
-.ex-input.err { border-color: var(--gold); background: color-mix(in srgb, var(--gold-light) 35%, white); }
+.ex-input.ok  { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 25%, var(--white)); }
+.ex-input.err { border-color: var(--gold); background: color-mix(in srgb, var(--gold-light) 35%, var(--white)); }
 .ex-input[readonly] { cursor: default; }
 
 .ex-check-btn {
@@ -185,10 +185,10 @@
   display: flex;
   align-items: center;
 }
-.ex-choice:hover:not(:disabled) { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 20%, white); }
-.ex-choice.selected { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 20%, white); }
-.ex-choice.ok  { border-color: var(--sage-dark); background: color-mix(in srgb, var(--sage-light) 30%, white); color: var(--sage-dark); font-weight: 500; }
-.ex-choice.err { border-color: var(--gold); background: color-mix(in srgb, var(--gold-light) 35%, white); color: var(--ink-soft); }
+.ex-choice:hover:not(:disabled) { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 20%, var(--white)); }
+.ex-choice.selected { border-color: var(--sage); background: color-mix(in srgb, var(--sage-light) 20%, var(--white)); }
+.ex-choice.ok  { border-color: var(--sage-dark); background: color-mix(in srgb, var(--sage-light) 30%, var(--white)); color: var(--sage-dark); font-weight: 500; }
+.ex-choice.err { border-color: var(--gold); background: color-mix(in srgb, var(--gold-light) 35%, var(--white)); color: var(--ink-soft); }
 .ex-choice:disabled { cursor: default; }
 
 /* ── FEEDBACK ── */

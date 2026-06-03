@@ -253,12 +253,21 @@ function clearFb(qId) {
   }
 }
 
+// ── Theme ─────────────────────────────────────────────────────────────────────
+function toggleDark() {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('matematik_theme', isDark ? 'dark' : 'light');
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 function init() {
+  if (localStorage.getItem('matematik_theme') === 'dark') {
+    document.body.classList.add('dark');
+  }
   loadState();
   updateHomeProgress();
 }
 
-window.App = { selectGrade, goHome, toggleGrade, selectItem, selectTopic, toggleWs, selectChoice, checkQ, revealQ, retryQ, clearFb };
+window.App = { selectGrade, goHome, toggleGrade, selectItem, selectTopic, toggleWs, selectChoice, checkQ, revealQ, retryQ, clearFb, toggleDark };
 
 init();

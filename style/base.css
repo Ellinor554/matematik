@@ -607,3 +607,53 @@ body {
   transition: color 0.2s;
 }
 .btn-home:hover { color: var(--ink); }
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  position: fixed;
+  top: 23px;
+  right: 24px;
+  z-index: 300;
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--cream-dark);
+  border: 1.5px solid var(--cream-dark);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s, border-color 0.3s;
+}
+.theme-toggle::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--white);
+  transition: transform 0.3s, background 0.3s;
+  flex-shrink: 0;
+}
+body.dark .theme-toggle {
+  background: var(--sage-dark);
+  border-color: var(--sage-dark);
+}
+body.dark .theme-toggle::after {
+  transform: translateX(18px);
+}
+
+/* ── DARK MODE ── */
+body.dark {
+  --cream:      #1A1816;
+  --cream-dark: #2C2926;
+  --sage:       #8FA890;
+  --sage-light: #2D4A30;
+  --sage-dark:  #72B078;
+  --warm-gray:  #7A7468;
+  --ink:        #EAE5DB;
+  --ink-soft:   #A89E94;
+  --gold:       #C8A96A;
+  --gold-light: #38280E;
+  --white:      #242220;
+  --shadow:     rgba(0,0,0,0.5);
+}
