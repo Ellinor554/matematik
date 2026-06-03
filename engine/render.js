@@ -70,12 +70,12 @@ export function renderQuestion(q) {
   let fb = '';
   if (s.correct === true) {
     fb = `<div class="ex-feedback ok">Rätt</div>`;
+  } else if (revealed) {
+    fb = `<div class="ex-feedback err">Rätt svar: ${fmtAnswer(q.a)}</div>`;
   } else if (s.correct === false) {
     const left = 3 - attempts;
     const leftText = left > 0 ? ` · ${left} försök kvar` : '';
     fb = `<div class="ex-feedback err">Fel svar${leftText}</div>`;
-  } else if (revealed) {
-    fb = `<div class="ex-feedback err">Rätt svar: ${fmtAnswer(q.a)}</div>`;
   }
   if (q.hint && !locked && !revealed) fb += `<div class="ex-hint">${q.hint}</div>`;
 
