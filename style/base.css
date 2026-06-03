@@ -392,8 +392,8 @@ body {
   font-size: 20px;
   color: var(--sage-dark);
 }
-.topic-card-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
-.topic-card-desc { font-size: 12px; font-weight: 300; color: var(--warm-gray); line-height: 1.6; }
+.topic-card-name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.topic-card-desc { font-size: 13px; font-weight: 400; color: var(--ink-soft); line-height: 1.6; }
 .topic-card-meta {
   display: flex;
   align-items: center;
