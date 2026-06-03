@@ -25,9 +25,25 @@ const GRADE_WORKSHEETS = {
 
 let WORKSHEETS = [];
 
+// ── Topic progress ────────────────────────────────────────────────────────────
+function updateTopicProgress() {
+  if (WORKSHEETS.length === 0) return;
+  const total = WORKSHEETS.reduce((s, ws) => s + ws.questions.length, 0);
+  const done  = WORKSHEETS.reduce((s, ws) =>
+    s + ws.questions.filter(q => exState[q.id]?.correct === true).length, 0);
+  const el = document.getElementById('tag-done');
+  if (!el) return;
+  if (done > 0) {
+    el.textContent = done + ' klara';
+    el.style.display = '';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
 // ── Home screen ───────────────────────────────────────────────────────────────
 function updateHomeProgress() {
-  const ws5  = GRADE_WORKSHEETS[5] || [];
+  const ws5   = GRADE_WORKSHEETS[5] || [];
   const total = ws5.reduce((s, ws) => s + ws.questions.length, 0);
   const done  = ws5.reduce((s, ws) =>
     s + ws.questions.filter(q => exState[q.id]?.correct === true).length, 0);
@@ -62,6 +78,8 @@ function selectGrade(grade) {
     document.getElementById('stat-uppgifter').textContent = '0';
     document.getElementById('tag-uppgifter').textContent  = '0 uppgifter';
     document.getElementById('panel-badge').textContent    = '0 uppgifter';
+    const tagDone = document.getElementById('tag-done');
+    if (tagDone) tagDone.style.display = 'none';
     return;
   }
 
@@ -73,6 +91,7 @@ function selectGrade(grade) {
   document.getElementById('panel-badge').textContent    = total + ' uppgifter';
 
   toggleWs('ab1');
+  updateTopicProgress();
 }
 
 function goHome() {
@@ -117,6 +136,14 @@ function selectTopic(card) {
     tags[0].classList.add('active-tag');
     tags[0].textContent = 'Aktivt';
   }
+
+  // Scroll to exercises, accounting for sticky topbar
+  const panel = document.querySelector('.module-panel');
+  if (panel) {
+    const topbarH = document.querySelector('.topbar')?.offsetHeight || 68;
+    const top = panel.getBoundingClientRect().top + window.scrollY - topbarH - 16;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
 }
 
 // ── Exercise accordion ────────────────────────────────────────────────────────
@@ -135,12 +162,44 @@ function toggleWs(wsId) {
   }
 }
 
+// ── Card re-render ────────────────────────────────────────────────────────────
+function updateCard(q, ws) {
+  const card = document.getElementById('excard-' + q.id);
+  if (!card) return;
+
+  // Re-render in place so render logic stays in one place (render.js)
+  const temp = document.createElement('div');
+  temp.innerHTML = renderQuestion(q);
+  card.replaceWith(temp.firstElementChild);
+
+  // Update accordion progress bar and score
+  const { done, total } = wsScore(ws);
+  const fill  = document.getElementById('pfill-' + ws.id);
+  const score = document.getElementById('pscore-' + ws.id);
+  if (fill)  fill.style.width = `${(done / total) * 100}%`;
+  if (score) { score.textContent = `${done}/${total}`; score.className = `ws-acc-score${done === total ? ' done' : ''}`; }
+
+  // Keep accordion body height correct while animating open
+  const body = document.getElementById('wsbody-' + ws.id);
+  const acc  = document.getElementById('ws-' + ws.id);
+  if (acc?.classList.contains('open') && body?.style.maxHeight !== 'none') {
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+
+  updateTopicProgress();
+}
+
 // ── Exercise interactions ─────────────────────────────────────────────────────
 function selectChoice(qId, val) {
   const result = findQ(WORKSHEETS, qId);
   if (!result || exState[qId]?.locked) return;
   const { q, ws } = result;
-  exState[qId] = { value: val, correct: checkAnswer(val, q.a), locked: true };
+  const isCorrect   = checkAnswer(val, q.a);
+  const prevAttempts = exState[qId]?.attempts || 0;
+  const attempts    = isCorrect ? prevAttempts : prevAttempts + 1;
+  const revealed    = !isCorrect && attempts >= 3;
+  const locked      = isCorrect || revealed;
+  exState[qId] = { value: val, correct: isCorrect ? true : false, locked, attempts, revealed };
   updateCard(q, ws);
   saveState();
 }
@@ -148,12 +207,27 @@ function selectChoice(qId, val) {
 function checkQ(qId) {
   const result = findQ(WORKSHEETS, qId);
   if (!result) return;
+  const s = exState[qId];
+  if (s?.locked || s?.revealed) return;
   const { q, ws } = result;
   const inp = document.getElementById('exinp-' + qId);
   const val = inp?.value.trim();
   if (!val) return;
-  const correct = checkAnswer(val, q.a);
-  exState[qId] = { value: val, correct, locked: correct };
+  const correct      = checkAnswer(val, q.a);
+  const prevAttempts = s?.attempts || 0;
+  const attempts     = correct ? prevAttempts : prevAttempts + 1;
+  const locked       = correct || attempts >= 3;
+  exState[qId] = { value: val, correct: correct ? true : false, locked, attempts, revealed: false };
+  updateCard(q, ws);
+  saveState();
+}
+
+function revealQ(qId) {
+  const result = findQ(WORKSHEETS, qId);
+  if (!result) return;
+  const { q, ws } = result;
+  const prev = exState[qId] || {};
+  exState[qId] = { value: prev.value || '', correct: null, locked: true, attempts: prev.attempts || 3, revealed: true };
   updateCard(q, ws);
   saveState();
 }
@@ -162,83 +236,20 @@ function retryQ(qId) {
   const result = findQ(WORKSHEETS, qId);
   if (!result) return;
   const { q, ws } = result;
-  exState[qId] = { value: '', correct: null, locked: false };
+  exState[qId] = { value: '', correct: null, locked: false, attempts: 0, revealed: false };
   updateCard(q, ws);
   saveState();
   setTimeout(() => { document.getElementById('exinp-' + qId)?.focus(); }, 50);
 }
 
 function clearFb(qId) {
-  if (exState[qId]?.correct != null) {
-    exState[qId] = { value: '', correct: null, locked: false };
+  const s = exState[qId];
+  if (s?.correct != null) {
+    exState[qId] = { value: '', correct: null, locked: false, attempts: s.attempts || 0, revealed: false };
     const inp  = document.getElementById('exinp-' + qId);
     const card = document.getElementById('excard-' + qId);
     inp?.classList.remove('ok', 'err');
     card?.classList.remove('ok', 'err');
-  }
-}
-
-function updateCard(q, ws) {
-  const card = document.getElementById('excard-' + q.id);
-  if (!card) return;
-  const s = exState[q.id];
-
-  card.classList.remove('ok', 'err');
-  if (s.correct === true)  card.classList.add('ok');
-  if (s.correct === false) card.classList.add('err');
-
-  if (q.choices) {
-    const container = document.getElementById('exc-' + q.id);
-    if (container) {
-      container.innerHTML = q.choices.map(c => {
-        let cls = '';
-        if (s.locked) {
-          cls = checkAnswer(c.replace(',', '.'), q.a) ? 'ok' : (s.value === c ? 'err' : '');
-        } else if (s.value === c) cls = 'selected';
-        return `<button class="ex-choice ${cls}" ${s.locked ? 'disabled' : ''}
-          onclick="App.selectChoice('${q.id}','${c.replace(/'/g, "\\'")}')">
-          ${renderMath(c)}
-        </button>`;
-      }).join('');
-    }
-  } else {
-    const inp = document.getElementById('exinp-' + q.id);
-    if (inp) {
-      inp.classList.remove('ok', 'err');
-      if (s.correct === true)  inp.classList.add('ok');
-      if (s.correct === false) inp.classList.add('err');
-      if (s.locked) inp.setAttribute('readonly', ''); else inp.removeAttribute('readonly');
-      const btn = inp.nextElementSibling;
-      if (btn) {
-        if (!s.locked) {
-          btn.className = 'ex-check-btn';
-          btn.textContent = 'Kontrollera';
-          btn.onclick = () => checkQ(q.id);
-        } else {
-          btn.className = 'ex-retry-btn';
-          btn.textContent = 'Försök igen';
-          btn.onclick = () => retryQ(q.id);
-        }
-      }
-    }
-  }
-
-  card.querySelector('.ex-feedback')?.remove();
-  card.querySelector('.ex-hint')?.remove();
-  if (s.correct === true)  card.insertAdjacentHTML('beforeend', `<div class="ex-feedback ok">Rätt</div>`);
-  if (s.correct === false) card.insertAdjacentHTML('beforeend', `<div class="ex-feedback err">Rätt svar: ${fmtAnswer(q.a)}</div>`);
-  if (q.hint && !s.locked) card.insertAdjacentHTML('beforeend', `<div class="ex-hint">${q.hint}</div>`);
-
-  const { done, total } = wsScore(ws);
-  const fill  = document.getElementById('pfill-' + ws.id);
-  const score = document.getElementById('pscore-' + ws.id);
-  if (fill)  fill.style.width = `${(done / total) * 100}%`;
-  if (score) { score.textContent = `${done}/${total}`; score.className = `ws-acc-score${done === total ? ' done' : ''}`; }
-
-  const body = document.getElementById('wsbody-' + ws.id);
-  const acc  = document.getElementById('ws-' + ws.id);
-  if (acc?.classList.contains('open') && body?.style.maxHeight !== 'none') {
-    body.style.maxHeight = body.scrollHeight + 'px';
   }
 }
 
@@ -248,6 +259,6 @@ function init() {
   updateHomeProgress();
 }
 
-window.App = { selectGrade, goHome, toggleGrade, selectItem, selectTopic, toggleWs, selectChoice, checkQ, retryQ, clearFb };
+window.App = { selectGrade, goHome, toggleGrade, selectItem, selectTopic, toggleWs, selectChoice, checkQ, revealQ, retryQ, clearFb };
 
 init();

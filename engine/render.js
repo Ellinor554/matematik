@@ -16,43 +16,68 @@ export function fmtAnswer(a) {
 }
 
 export function renderQuestion(q) {
-  const s = exState[q.id];
-  const locked = s?.locked || false;
-  const cardCls = s?.correct === true ? 'ok' : s?.correct === false ? 'err' : '';
+  const s        = exState[q.id] || {};
+  const attempts = s.attempts || 0;
+  const revealed = s.revealed || false;
+  const locked   = s.locked   || false;
+  const cardCls  = s.correct === true ? 'ok' : (s.correct === false || revealed) ? 'err' : '';
 
   let inputHtml;
   if (q.choices) {
     inputHtml = `<div class="ex-choices" id="exc-${q.id}">${
       q.choices.map(c => {
+        const isCorrectChoice = checkAnswer(c.replace(',', '.'), q.a);
         let cls = '';
-        if (locked) {
-          cls = checkAnswer(c.replace(',', '.'), q.a) ? 'ok' : (s?.value === c ? 'err' : '');
-        } else if (s?.value === c) cls = 'selected';
-        return `<button class="ex-choice ${cls}" ${locked ? 'disabled' : ''}
+        if (s.correct === true) {
+          cls = isCorrectChoice ? 'ok' : (s.value === c ? 'err' : '');
+        } else if (revealed) {
+          cls = isCorrectChoice ? 'ok' : '';
+        } else if (s.correct === false) {
+          cls = s.value === c ? 'err' : '';
+        }
+        const disabled = s.correct === true || revealed;
+        return `<button class="ex-choice ${cls}" ${disabled ? 'disabled' : ''}
           onclick="App.selectChoice('${q.id}','${c.replace(/'/g, "\\'")}')">
           ${renderMath(c)}
         </button>`;
       }).join('')
     }</div>`;
   } else {
-    const val = s?.value || '';
-    const iCls = s?.correct === true ? 'ok' : s?.correct === false ? 'err' : '';
+    const val  = s.value || '';
+    const iCls = s.correct === true ? 'ok' : s.correct === false ? 'err' : '';
+
+    let btnHtml;
+    if (!locked) {
+      btnHtml = `<button class="ex-check-btn" onclick="App.checkQ('${q.id}')">Kontrollera</button>`;
+    } else if (s.correct === true) {
+      btnHtml = `<button class="ex-retry-btn" onclick="App.retryQ('${q.id}')">Försök igen</button>`;
+    } else if (!revealed) {
+      btnHtml = `<button class="ex-reveal-btn" onclick="App.revealQ('${q.id}')">Visa svar</button>`;
+    } else {
+      btnHtml = '';
+    }
+
     inputHtml = `<div class="ex-input-row">
       <input class="ex-input ${iCls}" id="exinp-${q.id}" type="text"
         value="${val}" ${locked ? 'readonly' : ''}
         placeholder="Svar"
-        onkeydown="if(event.key==='Enter') App.checkQ('${q.id}')"
+        onkeydown="if(event.key==='Enter'&&!this.readOnly) App.checkQ('${q.id}')"
         oninput="App.clearFb('${q.id}')">
-      ${!locked
-        ? `<button class="ex-check-btn" onclick="App.checkQ('${q.id}')">Kontrollera</button>`
-        : `<button class="ex-retry-btn" onclick="App.retryQ('${q.id}')">Försök igen</button>`}
+      ${btnHtml}
     </div>`;
   }
 
   let fb = '';
-  if (s?.correct === true)  fb = `<div class="ex-feedback ok">Rätt</div>`;
-  if (s?.correct === false) fb = `<div class="ex-feedback err">Rätt svar: ${fmtAnswer(q.a)}</div>`;
-  if (q.hint && !locked)   fb += `<div class="ex-hint">${q.hint}</div>`;
+  if (s.correct === true) {
+    fb = `<div class="ex-feedback ok">Rätt</div>`;
+  } else if (s.correct === false) {
+    const left = 3 - attempts;
+    const leftText = left > 0 ? ` · ${left} försök kvar` : '';
+    fb = `<div class="ex-feedback err">Fel svar${leftText}</div>`;
+  } else if (revealed) {
+    fb = `<div class="ex-feedback err">Rätt svar: ${fmtAnswer(q.a)}</div>`;
+  }
+  if (q.hint && !locked && !revealed) fb += `<div class="ex-hint">${q.hint}</div>`;
 
   return `<div class="ex-qcard ${cardCls}" id="excard-${q.id}">
     <div class="ex-qtext">${renderMath(q.t)}</div>

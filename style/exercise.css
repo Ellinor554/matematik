@@ -197,6 +197,20 @@
 .ex-feedback.err { color: var(--gold); }
 .ex-hint { margin-top: 4px; font-size: 11px; color: var(--warm-gray); font-style: italic; }
 
+.ex-reveal-btn {
+  padding: 7px 18px;
+  background: none;
+  border: 1px solid var(--gold);
+  border-radius: 40px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--gold);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, color 0.2s;
+}
+.ex-reveal-btn:hover { background: var(--gold-light); color: var(--ink); }
+
 /* ── COMING SOON ── */
 .ex-coming-soon {
   padding: 48px 32px;

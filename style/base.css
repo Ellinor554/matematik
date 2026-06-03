@@ -413,6 +413,10 @@ body {
   background: color-mix(in srgb, var(--sage-light) 40%, transparent);
   color: var(--sage-dark);
 }
+.meta-tag.done-tag {
+  background: color-mix(in srgb, var(--sage-light) 40%, transparent);
+  color: var(--sage-dark);
+}
 
 /* ── MODULE PANEL ── */
 .module-panel {
