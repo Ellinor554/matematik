@@ -304,6 +304,92 @@ function clearFb(qId) {
   }
 }
 
+// ── Search ────────────────────────────────────────────────────────────────────
+function stripHtml(html) {
+  return html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ').trim();
+}
+
+function normalize(s) {
+  return s.toLowerCase()
+    .replace(/å/g, 'a').replace(/ä/g, 'a').replace(/ö/g, 'o');
+}
+
+function openSearch() {
+  document.getElementById('search-overlay').style.display = '';
+  const inp = document.getElementById('search-input');
+  inp.value = '';
+  document.getElementById('search-results').innerHTML = '';
+  inp.focus();
+}
+
+function closeSearch() {
+  document.getElementById('search-overlay').style.display = 'none';
+}
+
+function doSearch(query) {
+  const results = document.getElementById('search-results');
+  if (!query.trim()) { results.innerHTML = ''; return; }
+
+  const q = normalize(query.trim());
+  const groups = [];
+
+  for (const [key, wsList] of Object.entries(TOPIC_DATA)) {
+    const [gradeStr, topicKey] = key.split(':');
+    const grade     = parseInt(gradeStr);
+    const topicMeta = (GRADE_TOPICS[grade] || []).find(t => t.key === topicKey);
+    if (!topicMeta) continue;
+
+    const topicNorm = normalize(topicMeta.name);
+    const matches   = [];
+
+    for (const ws of wsList) {
+      const wsTitleNorm = normalize(ws.title);
+      for (const question of ws.questions) {
+        const text  = normalize(stripHtml(question.t));
+        const group = normalize(question.g || '');
+        if (text.includes(q) || group.includes(q) || wsTitleNorm.includes(q) || topicNorm.includes(q)) {
+          matches.push(question);
+        }
+      }
+    }
+
+    if (matches.length > 0) {
+      groups.push({ grade, topicKey, topicName: topicMeta.name, count: matches.length, samples: matches.slice(0, 3) });
+    }
+  }
+
+  if (groups.length === 0) {
+    results.innerHTML = '<div class="search-empty">Inga uppgifter hittades för den sökningen.</div>';
+    return;
+  }
+
+  results.innerHTML = groups.map(g => {
+    const samples = g.samples.map(s =>
+      `<div class="search-sample">${stripHtml(s.t)}</div>`
+    ).join('');
+    const more = g.count > 3
+      ? `<div class="search-more">+ ${g.count - 3} uppgifter till…</div>`
+      : '';
+    return `<div class="search-group" onclick="App.goFromSearch(${g.grade},'${g.topicKey}','${g.topicName.replace(/'/g, "\\'")}')">
+      <div class="search-group-header">
+        <span class="search-grade-badge">Åk ${g.grade}</span>
+        <span class="search-group-topic">${g.topicName}</span>
+        <span class="search-group-count">${g.count} uppgifter</span>
+      </div>
+      <div class="search-group-samples">${samples}${more}</div>
+    </div>`;
+  }).join('');
+}
+
+function goFromSearch(grade, topicKey, topicName) {
+  closeSearch();
+  goTopicView(grade, topicKey, topicName);
+}
+
 // ── Theme ─────────────────────────────────────────────────────────────────────
 function toggleDark() {
   const isDark = document.body.classList.toggle('dark');
@@ -317,6 +403,9 @@ function init() {
   }
   loadState();
   updateHomeProgress();
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSearch();
+  });
 }
 
 window.App = {
@@ -324,7 +413,8 @@ window.App = {
   toggleGrade, selectItem,
   goTopicFromCard, goTopicView,
   toggleWs, selectChoice, checkQ, revealQ, retryQ, clearFb,
-  toggleDark
+  toggleDark,
+  openSearch, closeSearch, doSearch, goFromSearch
 };
 
 init();
