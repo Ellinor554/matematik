@@ -65,13 +65,22 @@ let currentGrade = 0;
 
 // ── Home screen ───────────────────────────────────────────────────────────────
 function updateHomeProgress() {
-  [5, 6].forEach(grade => {
-    const wsList = GRADE_WORKSHEETS[grade] || [];
-    const total  = wsList.reduce((s, ws) => s + ws.questions.length, 0);
-    const done   = wsList.reduce((s, ws) =>
-      s + ws.questions.filter(q => exState[q.id]?.correct === true).length, 0);
+  [4, 5, 6].forEach(grade => {
     const el = document.getElementById(`home-grade${grade}-status`);
-    if (el) el.textContent = done > 0 ? `${done}/${total} klara` : `${total} uppgifter`;
+    if (!el) return;
+    const topics = GRADE_TOPICS[grade] || [];
+    let completedAreas = 0;
+    for (const t of topics) {
+      const wsList = TOPIC_DATA[`${grade}:${t.key}`] || [];
+      if (wsList.length === 0) continue;
+      const total = wsList.reduce((s, ws) => s + ws.questions.length, 0);
+      const done  = wsList.reduce((s, ws) =>
+        s + ws.questions.filter(q => exState[q.id]?.correct === true).length, 0);
+      if (total > 0 && done === total) completedAreas++;
+    }
+    el.textContent = completedAreas > 0
+      ? `${topics.length} områden · ${completedAreas} klara`
+      : `${topics.length} områden`;
   });
 }
 
