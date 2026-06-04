@@ -228,16 +228,53 @@ function updateCard(q, ws) {
   card.replaceWith(temp.firstElementChild);
 
   const { done, total } = wsScore(ws);
+  const isDone = done === total && total > 0;
+
   const fill  = document.getElementById('pfill-' + ws.id);
   const score = document.getElementById('pscore-' + ws.id);
   if (fill)  fill.style.width = `${(done / total) * 100}%`;
-  if (score) { score.textContent = `${done}/${total}`; score.className = `ws-acc-score${done === total ? ' done' : ''}`; }
+  if (score) {
+    score.textContent = isDone ? `✓ ${done}/${total}` : `${done}/${total}`;
+    score.className   = `ws-acc-score${isDone ? ' done' : ''}`;
+  }
+
+  const acc = document.getElementById('ws-' + ws.id);
+  if (acc) {
+    if (isDone) {
+      acc.classList.add('done');
+      const inner = acc.querySelector('.ws-acc-inner');
+      if (inner && !inner.querySelector('.ws-redo-row')) {
+        const redo = document.createElement('div');
+        redo.className = 'ws-redo-row';
+        redo.innerHTML = `<button class="ws-redo-btn" onclick="App.resetWs('${ws.id}')">Gör om</button>`;
+        inner.appendChild(redo);
+      }
+    } else {
+      acc.classList.remove('done');
+    }
+  }
 
   const body = document.getElementById('wsbody-' + ws.id);
-  const acc  = document.getElementById('ws-' + ws.id);
   if (acc?.classList.contains('open') && body?.style.maxHeight !== 'none') {
     body.style.maxHeight = body.scrollHeight + 'px';
   }
+}
+
+// ── Reset worksheet ───────────────────────────────────────────────────────────
+function resetWs(wsId) {
+  const ws = WORKSHEETS.find(w => w.id === wsId);
+  if (!ws) return;
+  for (const q of ws.questions) {
+    exState[q.id] = { value: '', correct: null, locked: false, attempts: 0, revealed: false };
+  }
+  saveState();
+  const acc = document.getElementById('ws-' + wsId);
+  if (!acc) return;
+  const wasOpen = acc.classList.contains('open');
+  const t = document.createElement('div');
+  t.innerHTML = renderAccordion(ws);
+  acc.replaceWith(t.firstElementChild);
+  if (wasOpen) toggleWs(wsId);
 }
 
 // ── Exercise interactions ─────────────────────────────────────────────────────
@@ -412,7 +449,7 @@ window.App = {
   selectGrade, goHome, goGrade,
   toggleGrade, selectItem,
   goTopicFromCard, goTopicView,
-  toggleWs, selectChoice, checkQ, revealQ, retryQ, clearFb,
+  toggleWs, selectChoice, checkQ, revealQ, retryQ, clearFb, resetWs,
   toggleDark,
   openSearch, closeSearch, doSearch, goFromSearch
 };

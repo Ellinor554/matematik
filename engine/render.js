@@ -87,7 +87,8 @@ export function renderQuestion(q) {
 
 export function renderAccordion(ws) {
   const { done, total } = wsScore(ws);
-  const pct = total > 0 ? (done / total) * 100 : 0;
+  const pct    = total > 0 ? (done / total) * 100 : 0;
+  const isDone = done === total && total > 0;
 
   const groups = [], seen = new Set();
   for (const q of ws.questions) {
@@ -100,8 +101,12 @@ export function renderAccordion(ws) {
     ws.questions.filter(q => q.g === g).forEach(q => { qs += renderQuestion(q); });
   }
 
+  const redoHtml = isDone
+    ? `<div class="ws-redo-row"><button class="ws-redo-btn" onclick="App.resetWs('${ws.id}')">Gör om</button></div>`
+    : '';
+
   return `
-    <div class="ws-accordion" id="ws-${ws.id}">
+    <div class="ws-accordion${isDone ? ' done' : ''}" id="ws-${ws.id}">
       <button class="ws-acc-header" onclick="App.toggleWs('${ws.id}')">
         <div class="ws-acc-left">
           <span class="ws-acc-num">${ws.label}</span>
@@ -111,12 +116,12 @@ export function renderAccordion(ws) {
           <div class="ws-prog-mini">
             <div class="ws-prog-mini-fill" id="pfill-${ws.id}" style="width:${pct}%"></div>
           </div>
-          <span class="ws-acc-score${done === total && total > 0 ? ' done' : ''}" id="pscore-${ws.id}">${done}/${total}</span>
+          <span class="ws-acc-score${isDone ? ' done' : ''}" id="pscore-${ws.id}">${isDone ? `✓ ${done}/${total}` : `${done}/${total}`}</span>
           <span class="ws-acc-chevron"></span>
         </div>
       </button>
       <div class="ws-acc-body" id="wsbody-${ws.id}">
-        <div class="ws-acc-inner">${qs}</div>
+        <div class="ws-acc-inner">${qs}${redoHtml}</div>
       </div>
     </div>`;
 }

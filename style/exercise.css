@@ -211,6 +211,42 @@
 }
 .ex-reveal-btn:hover { background: var(--gold-light); color: var(--ink); }
 
+/* ── ACCORDION DONE STATE ── */
+.ws-accordion.done .ws-acc-header {
+  background: color-mix(in srgb, var(--sage-light) 18%, var(--white));
+}
+.ws-accordion.done .ws-acc-header:hover {
+  background: color-mix(in srgb, var(--sage-light) 28%, var(--white));
+}
+.ws-accordion.done .ws-acc-num       { color: var(--sage-dark); }
+.ws-accordion.done .ws-prog-mini-fill { background: var(--sage-dark); }
+
+.ws-redo-row {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 4px;
+  margin-top: 12px;
+  border-top: 1px solid var(--cream-dark);
+}
+
+.ws-redo-btn {
+  padding: 9px 32px;
+  background: none;
+  border: 1.5px solid var(--sage);
+  border-radius: 40px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--sage-dark);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.ws-redo-btn:hover {
+  background: color-mix(in srgb, var(--sage-light) 30%, transparent);
+  border-color: var(--sage-dark);
+  transform: translateY(-1px);
+}
+
 /* ── COMING SOON ── */
 .ex-coming-soon {
   padding: 48px 32px;
