@@ -1,6 +1,6 @@
 const worksheets = [
   {
-    id:'ab1', label:'1', title:'Tal i bråkform (I)',
+    id:'ab1', label:'1', title:'Bråk 1',
     questions:[
       {id:'1-1a', g:'1. Skriv med siffror', t:'Hur skriver man "en halv" med siffror?', a:'1/2', hint:'Skriv som bråk, t.ex. 3/4'},
       {id:'1-1b', g:'1. Skriv med siffror', t:'Hur skriver man "en tredjedel" med siffror?', a:'1/3'},
@@ -23,7 +23,7 @@ const worksheets = [
     ]
   },
   {
-    id:'ab2', label:'2', title:'Tal i bråkform (II)',
+    id:'ab2', label:'2', title:'Bråk 2',
     questions:[
       {id:'2-6a', g:'6–7. Ringa in det största talet', t:'Vilket tal är störst: 1/2 eller 1/3?', a:'1/2', choices:['1/2','1/3']},
       {id:'2-6b', g:'6–7. Ringa in det största talet', t:'Vilket tal är störst: 2/5 eller 3/5?', a:'3/5', choices:['2/5','3/5']},
@@ -38,7 +38,7 @@ const worksheets = [
     ]
   },
   {
-    id:'ab3', label:'3', title:'Tiondelar, hundradelar och tusendelar',
+    id:'ab3', label:'3', title:'Tiondelar, hundradelar, och tusendelar',
     questions:[
       {id:'3-5a', g:'5. Skriv i decimalform', t:'4/10 =', a:'0.4'},
       {id:'3-5b', g:'5. Skriv i decimalform', t:'24/100 =', a:'0.24'},
@@ -58,7 +58,7 @@ const worksheets = [
     ]
   },
   {
-    id:'ab4', label:'4', title:'Bråkform och decimalform (I)',
+    id:'ab4', label:'4', title:'Omvandling 1',
     questions:[
       {id:'4-1f',  g:'Skriv bråkform och decimalform', t:'En tiondel — skriv i <strong>bråkform</strong>:', a:'1/10'},
       {id:'4-1d',  g:'Skriv bråkform och decimalform', t:'En tiondel — skriv i <strong>decimalform</strong>:', a:'0.1'},
@@ -87,7 +87,7 @@ const worksheets = [
     ]
   },
   {
-    id:'ab5', label:'5', title:'Bråkform och decimalform (II)',
+    id:'ab5', label:'5', title:'Omvandling 2',
     questions:[
       {id:'5-6a', g:'6. Vilket tal är x?', t:'0,25 = 1/x &nbsp;→&nbsp; x =', a:'4'},
       {id:'5-6b', g:'6. Vilket tal är x?', t:'x/5 = 0,6 &nbsp;→&nbsp; x =', a:'3'},
@@ -101,7 +101,7 @@ const worksheets = [
     ]
   },
   {
-    id:'ab8', label:'8', title:'Avrundning',
+    id:'ab8', label:'6', title:'Avrundning',
     questions:[
       {id:'8-1a', g:'1–2. Avrunda till heltal', t:'Avrunda 7,9 till närmaste heltal:', a:'8'},
       {id:'8-1b', g:'1–2. Avrunda till heltal', t:'Avrunda 13,2 till närmaste heltal:', a:'13'},
@@ -136,7 +136,7 @@ const worksheets = [
     ]
   },
   {
-    id:'ab9', label:'9', title:'Vi repeterar 1',
+    id:'ab9', label:'7', title:'Repetition',
     questions:[
       {id:'9-2a', g:'2. Räkna ut', t:'1 − 3/4 =', a:'1/4'},
       {id:'9-2b', g:'2. Räkna ut', t:'2/6 + 3/6 =', a:'5/6'},
@@ -162,7 +162,7 @@ const worksheets = [
     ]
   },
   {
-    id:'ab10', label:'10', title:'Vi repeterar 2',
+    id:'ab10', label:'8', title:'Repetition',
     questions:[
       {id:'10-1a', g:'1. Skriv med siffror', t:'Skriv "fyra sjättedelar" med siffror:', a:'4/6'},
       {id:'10-1b', g:'1. Skriv med siffror', t:'Skriv "två sjundedelar" med siffror:', a:'2/7'},
