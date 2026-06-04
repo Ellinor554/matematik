@@ -51,12 +51,13 @@
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem" onclick="App.selectItem(this)">Taluppfattning &amp; huvudräkning</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">De fyra räknesätten</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Tid och statistik</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Numerisk räkning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Taluppfattning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Uppställning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Tid och Statistik</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Multiplikation och division</div>
         <div class="nav-subitem" onclick="App.selectItem(this)">Geometri</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Volym och vikt</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Volym</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Vikt</div>
       </div>
     </div>
 
@@ -67,12 +68,13 @@
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem active" onclick="App.selectItem(this)">Taluppfattning &amp; huvudräkning</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">De fyra räknesätten</div>
+        <div class="nav-subitem active" onclick="App.selectItem(this)">Bråk och decimalform</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">De fyra räknesätten: Decimalform</div>
         <div class="nav-subitem" onclick="App.selectItem(this)">Tid och statistik</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Numerisk räkning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Uppställning: Decimalform</div>
         <div class="nav-subitem" onclick="App.selectItem(this)">Geometri</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Volym och vikt</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Volym</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Vikt</div>
       </div>
     </div>
 
@@ -83,10 +85,11 @@
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem" onclick="App.selectItem(this)">Taluppfattning och huvudräkning</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Taluppfattning</div>
         <div class="nav-subitem" onclick="App.selectItem(this)">Bråk och procent</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Samband, uttryck och ekvationer</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Med sikte på framtiden</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Algebra</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Geometri</div>
+        <div class="nav-subitem" onclick="App.selectItem(this)">Nationella prov</div>
       </div>
     </div>
   </nav>
@@ -118,17 +121,17 @@
       <div class="stat-card">
         <div class="stat-card-label">Uppgifter</div>
         <div class="stat-card-value" id="stat-uppgifter">—</div>
-        <div class="stat-card-sub">Bråk, decimaler &amp; avrundning</div>
+        <div class="stat-card-sub">Bråk, decimalform &amp; jämförelser</div>
       </div>
       <div class="stat-card">
         <div class="stat-card-label">Delområden</div>
-        <div class="stat-card-value">6</div>
+        <div class="stat-card-value">7</div>
         <div class="stat-card-sub">I detta avsnitt</div>
       </div>
       <div class="stat-card accent">
         <div class="stat-card-label">Aktivt område</div>
         <div class="stat-card-value" id="stat-grade">Åk 5</div>
-        <div class="stat-card-sub">Taluppfattning</div>
+        <div class="stat-card-sub">Bråk och decimalform</div>
       </div>
     </div>
 
@@ -139,9 +142,9 @@
 
     <div class="topics-grid">
       <div class="topic-card active" onclick="App.selectTopic(this)">
-        <div class="topic-card-icon">N</div>
-        <div class="topic-card-name">Taluppfattning &amp; huvudräkning</div>
-        <div class="topic-card-desc">Positionssystemet, tallinjen, avrundning och mentala räknestrategier.</div>
+        <div class="topic-card-icon">%</div>
+        <div class="topic-card-name">Bråk och decimalform</div>
+        <div class="topic-card-desc">Bråk, decimaltal, tiondels- och hundredelsform samt jämförelser.</div>
         <div class="topic-card-meta">
           <span class="meta-tag active-tag">Aktivt</span>
           <span class="meta-tag" id="tag-uppgifter">— uppgifter</span>
@@ -150,8 +153,8 @@
       </div>
       <div class="topic-card" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">±</div>
-        <div class="topic-card-name">De fyra räknesätten</div>
-        <div class="topic-card-desc">Addition, subtraktion, multiplikation och division med hela tal och decimaltal.</div>
+        <div class="topic-card-name">De fyra räknesätten: Decimalform</div>
+        <div class="topic-card-desc">Addition, subtraktion, multiplikation och division med decimaltal.</div>
         <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
       </div>
       <div class="topic-card" onclick="App.selectTopic(this)">
@@ -162,8 +165,8 @@
       </div>
       <div class="topic-card" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">#</div>
-        <div class="topic-card-name">Numerisk räkning</div>
-        <div class="topic-card-desc">Algoritmer, skriftliga metoder och räkning med större tal.</div>
+        <div class="topic-card-name">Uppställning: Decimalform</div>
+        <div class="topic-card-desc">Skriftliga algoritmer för räkning med decimaltal.</div>
         <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
       </div>
       <div class="topic-card" onclick="App.selectTopic(this)">
@@ -174,8 +177,14 @@
       </div>
       <div class="topic-card" onclick="App.selectTopic(this)">
         <div class="topic-card-icon">◻</div>
-        <div class="topic-card-name">Volym och vikt</div>
-        <div class="topic-card-desc">Enheter för volym och massa, mätning och omvandlingar.</div>
+        <div class="topic-card-name">Volym</div>
+        <div class="topic-card-desc">Enheter för volym, mätning och omvandlingar.</div>
+        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
+      </div>
+      <div class="topic-card" onclick="App.selectTopic(this)">
+        <div class="topic-card-icon">⚖</div>
+        <div class="topic-card-name">Vikt</div>
+        <div class="topic-card-desc">Enheter för massa, mätning och omvandlingar.</div>
         <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
       </div>
     </div>
@@ -188,7 +197,7 @@
 
     <div class="module-panel">
       <div class="module-panel-header">
-        <div class="module-panel-title">Taluppfattning &amp; huvudräkning</div>
+        <div class="module-panel-title">Bråk och decimalform</div>
         <div class="module-panel-badge" id="panel-badge">Laddar…</div>
       </div>
       <div class="module-panel-body exercise-area" id="exercise-panel"></div>
