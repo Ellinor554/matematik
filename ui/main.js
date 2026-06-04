@@ -19,29 +19,49 @@ function saveState() {
   } catch (_) {}
 }
 
-// Grade worksheets registry
-const GRADE_WORKSHEETS = {
-  5: [...grade5Taluppfattning],
-  6: [...grade6Taluppfattning]
+// ── Topic metadata ─────────────────────────────────────────────────────────────
+const GRADE_TOPICS = {
+  4: [
+    { key: 'taluppfattning',          icon: 'N', name: 'Taluppfattning',                   desc: 'Positionssystemet, tallinjen, avrundning och mentala räknestrategier.' },
+    { key: 'uppstallning',            icon: '#', name: 'Uppställning',                     desc: 'Skriftliga algoritmer för addition, subtraktion och de fyra räknesätten.' },
+    { key: 'tid-statistik',           icon: 't', name: 'Tid och Statistik',                desc: 'Klockan, tidsenheter, diagram, tabeller och att tolka data.' },
+    { key: 'multiplikation-division', icon: '×', name: 'Multiplikation och division',      desc: 'Multiplikation och division med hela tal, tabeller och algoritmer.' },
+    { key: 'geometri',                icon: '△', name: 'Geometri',                         desc: 'Former, vinklar, symmetri, area och omkrets.' },
+    { key: 'volym',                   icon: '◻', name: 'Volym',                            desc: 'Enheter för volym, mätning och omvandlingar.' },
+    { key: 'vikt',                    icon: '⚖', name: 'Vikt',                             desc: 'Enheter för massa, mätning och omvandlingar.' },
+  ],
+  5: [
+    { key: 'brak-decimalform',         icon: '%', name: 'Bråk och decimalform',             desc: 'Bråk, decimaltal, tiondels- och hundredelsform samt jämförelser.' },
+    { key: 'fyra-raksesatten-decimal', icon: '±', name: 'De fyra räknesätten: Decimalform', desc: 'Addition, subtraktion, multiplikation och division med decimaltal.' },
+    { key: 'tid-statistik',            icon: 't', name: 'Tid och statistik',                desc: 'Klockan, tidsenheter, diagram, tabeller och att tolka data.' },
+    { key: 'uppstallning-decimal',     icon: '#', name: 'Uppställning: Decimalform',        desc: 'Skriftliga algoritmer för räkning med decimaltal.' },
+    { key: 'geometri',                 icon: '△', name: 'Geometri',                         desc: 'Former, vinklar, symmetri, area och omkrets.' },
+    { key: 'volym',                    icon: '◻', name: 'Volym',                            desc: 'Enheter för volym, mätning och omvandlingar.' },
+    { key: 'vikt',                     icon: '⚖', name: 'Vikt',                             desc: 'Enheter för massa, mätning och omvandlingar.' },
+  ],
+  6: [
+    { key: 'taluppfattning',  icon: 'N', name: 'Taluppfattning',   desc: 'Stora tal, positionssystemet, avrundning och tallinjen.' },
+    { key: 'brak-procent',    icon: '%', name: 'Bråk och procent', desc: 'Bråk, decimaltal, procent och proportionalitet.' },
+    { key: 'algebra',         icon: 'x', name: 'Algebra',          desc: 'Variabler, uttryck, ekvationer och mönster.' },
+    { key: 'geometri',        icon: '△', name: 'Geometri',         desc: 'Former, vinklar, area, omkrets och koordinatsystem.' },
+    { key: 'nationella-prov', icon: '★', name: 'Nationella prov',  desc: 'Övning inför nationella proven i matematik.' },
+  ],
 };
 
-let WORKSHEETS = [];
+// ── Data registry: 'grade:topicKey' → worksheets array ────────────────────────
+const TOPIC_DATA = {
+  '5:brak-decimalform': grade5Taluppfattning,
+  '6:taluppfattning':   grade6Taluppfattning,
+};
 
-// ── Topic progress ────────────────────────────────────────────────────────────
-function updateTopicProgress() {
-  if (WORKSHEETS.length === 0) return;
-  const total = WORKSHEETS.reduce((s, ws) => s + ws.questions.length, 0);
-  const done  = WORKSHEETS.reduce((s, ws) =>
-    s + ws.questions.filter(q => exState[q.id]?.correct === true).length, 0);
-  const el = document.getElementById('tag-done');
-  if (!el) return;
-  if (done > 0) {
-    el.textContent = done + ' klara';
-    el.style.display = '';
-  } else {
-    el.style.display = 'none';
-  }
-}
+// Flat list per grade for home screen totals
+const GRADE_WORKSHEETS = {
+  5: [...grade5Taluppfattning],
+  6: [...grade6Taluppfattning],
+};
+
+let WORKSHEETS   = [];
+let currentGrade = 0;
 
 // ── Home screen ───────────────────────────────────────────────────────────────
 function updateHomeProgress() {
@@ -57,9 +77,10 @@ function updateHomeProgress() {
 
 // ── Grade selection ───────────────────────────────────────────────────────────
 function selectGrade(grade) {
-  WORKSHEETS = GRADE_WORKSHEETS[grade] || [];
+  currentGrade = grade;
 
-  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('home-view').style.display  = 'none';
+  document.getElementById('topic-view').style.display = 'none';
   const gradeView = document.getElementById('grade-view');
   gradeView.style.display = '';
   gradeView.classList.add('sidebar-open');
@@ -67,87 +88,118 @@ function selectGrade(grade) {
 
   document.querySelectorAll('.nav-grade').forEach(g => g.classList.remove('open'));
   document.getElementById('grade' + grade)?.classList.add('open');
+  document.querySelectorAll('.nav-subitem').forEach(i => i.classList.remove('active'));
 
   document.getElementById('breadcrumb-grade').textContent = grade;
   document.getElementById('page-kicker').textContent = 'Årskurs ' + grade;
-  document.getElementById('stat-grade').textContent = 'Åk ' + grade;
   const orn = document.getElementById('ornament-num');
   if (orn) orn.textContent = grade;
 
-  const panel = document.getElementById('exercise-panel');
-  if (!panel) return;
+  const topics = GRADE_TOPICS[grade] || [];
+  const totalQ = topics.reduce((s, t) => {
+    const ws = TOPIC_DATA[`${grade}:${t.key}`] || [];
+    return s + ws.reduce((ss, w) => ss + w.questions.length, 0);
+  }, 0);
+  document.getElementById('stat-uppgifter').textContent  = totalQ || '—';
+  document.getElementById('stat-delomraden').textContent = topics.length;
 
-  if (WORKSHEETS.length === 0) {
-    panel.innerHTML = `<div class="ex-coming-soon">Uppgifter för Årskurs ${grade} kommer snart.</div>`;
-    document.getElementById('stat-uppgifter').textContent = '0';
-    document.getElementById('tag-uppgifter').textContent  = '0 uppgifter';
-    document.getElementById('panel-badge').textContent    = '0 uppgifter';
-    const tagDone = document.getElementById('tag-done');
-    if (tagDone) tagDone.style.display = 'none';
-    return;
-  }
+  renderTopicsGrid(grade);
+}
 
-  panel.innerHTML = WORKSHEETS.map(ws => renderAccordion(ws)).join('');
-
-  const total = WORKSHEETS.reduce((s, ws) => s + ws.questions.length, 0);
-  document.getElementById('stat-uppgifter').textContent = total;
-  document.getElementById('tag-uppgifter').textContent  = total + ' uppgifter';
-  document.getElementById('panel-badge').textContent    = total + ' uppgifter';
-
-  if (WORKSHEETS.length > 0) toggleWs(WORKSHEETS[0].id);
-  updateTopicProgress();
+function renderTopicsGrid(grade) {
+  const topics = GRADE_TOPICS[grade] || [];
+  const grid   = document.getElementById('topics-grid');
+  if (!grid) return;
+  grid.innerHTML = topics.map(t => {
+    const ws    = TOPIC_DATA[`${grade}:${t.key}`] || [];
+    const total = ws.reduce((s, w) => s + w.questions.length, 0);
+    const done  = ws.reduce((s, w) =>
+      s + w.questions.filter(q => exState[q.id]?.correct === true).length, 0);
+    const countText = total > 0 ? `${total} uppgifter` : '0 uppgifter';
+    const doneHtml  = done > 0 ? `<span class="meta-tag done-tag">${done} klara</span>` : '';
+    return `<div class="topic-card" data-topic="${t.key}" onclick="App.goTopicFromCard(this)">
+      <div class="topic-card-icon">${t.icon}</div>
+      <div class="topic-card-name">${t.name}</div>
+      <div class="topic-card-desc">${t.desc}</div>
+      <div class="topic-card-meta">
+        <span class="meta-tag">${countText}</span>
+        ${doneHtml}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function goHome() {
-  document.getElementById('grade-view').style.display = 'none';
+  document.getElementById('grade-view').style.display  = 'none';
   document.getElementById('grade-view').classList.remove('sidebar-open');
+  document.getElementById('topic-view').style.display  = 'none';
+  document.getElementById('topic-view').classList.remove('sidebar-open');
   document.querySelector('.sidebar').classList.remove('visible');
   document.getElementById('home-view').style.display = '';
   updateHomeProgress();
 }
 
+function goGrade() {
+  selectGrade(currentGrade);
+}
+
 // ── Sidebar navigation ────────────────────────────────────────────────────────
 function toggleGrade(id) {
-  const el = document.getElementById(id);
+  const el     = document.getElementById(id);
   const isOpen = el.classList.contains('open');
   document.querySelectorAll('.nav-grade').forEach(g => g.classList.remove('open'));
   if (!isOpen) el.classList.add('open');
 }
 
 function selectItem(el) {
-  document.querySelectorAll('.nav-subitem').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
+  const grade    = parseInt(el.dataset.grade, 10);
+  const topicKey = el.dataset.topic;
+  const topicName = el.textContent.trim();
+  goTopicView(grade, topicKey, topicName);
 }
 
-function selectTopic(card) {
-  document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active'));
-  card.classList.add('active');
-  const name = card.querySelector('.topic-card-name').textContent;
-  document.querySelector('.module-panel-title').textContent = name;
-  document.querySelector('.stat-card.accent .stat-card-sub').textContent =
-    name.length > 22 ? name.slice(0, 22) + '…' : name;
-  document.querySelectorAll('.meta-tag.active-tag').forEach(t => {
-    t.classList.remove('active-tag');
-    t.textContent = '0 uppgifter';
-  });
-  const tags = card.querySelectorAll('.meta-tag');
-  if (tags.length === 1) {
-    const span = document.createElement('span');
-    span.className = 'meta-tag active-tag';
-    span.textContent = 'Aktivt';
-    card.querySelector('.topic-card-meta').prepend(span);
-  } else {
-    tags[0].classList.add('active-tag');
-    tags[0].textContent = 'Aktivt';
+function goTopicFromCard(card) {
+  const topicKey  = card.dataset.topic;
+  const topicName = card.querySelector('.topic-card-name').textContent.trim();
+  goTopicView(currentGrade, topicKey, topicName);
+}
+
+// ── Topic view ────────────────────────────────────────────────────────────────
+function goTopicView(grade, topicKey, topicName) {
+  currentGrade = grade;
+  WORKSHEETS   = TOPIC_DATA[`${grade}:${topicKey}`] || [];
+
+  document.getElementById('home-view').style.display  = 'none';
+  document.getElementById('grade-view').style.display = 'none';
+  const topicView = document.getElementById('topic-view');
+  topicView.style.display = '';
+  topicView.classList.add('sidebar-open');
+  document.querySelector('.sidebar').classList.add('visible');
+
+  document.querySelectorAll('.nav-grade').forEach(g => g.classList.remove('open'));
+  document.getElementById('grade' + grade)?.classList.add('open');
+  document.querySelectorAll('.nav-subitem').forEach(i => i.classList.remove('active'));
+  document.querySelector(`.nav-subitem[data-grade="${grade}"][data-topic="${topicKey}"]`)?.classList.add('active');
+
+  document.getElementById('tv-grade').textContent      = grade;
+  document.getElementById('tv-topic-name').textContent = topicName;
+  document.getElementById('tv-kicker').textContent     = 'Årskurs ' + grade;
+  document.getElementById('tv-title').textContent      = topicName;
+  document.getElementById('tv-ornament').textContent   = grade;
+  document.getElementById('tv-panel-title').textContent = topicName;
+
+  const panel = document.getElementById('tv-exercise-panel');
+
+  if (WORKSHEETS.length === 0) {
+    panel.innerHTML = `<div class="ex-coming-soon">Uppgifter för ${topicName} (Årskurs ${grade}) kommer snart.</div>`;
+    document.getElementById('tv-panel-badge').textContent = '0 uppgifter';
+    return;
   }
 
-  // Scroll to exercises, accounting for sticky topbar
-  const panel = document.querySelector('.module-panel');
-  if (panel) {
-    const topbarH = document.querySelector('.topbar')?.offsetHeight || 68;
-    const top = panel.getBoundingClientRect().top + window.scrollY - topbarH - 16;
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
+  panel.innerHTML = WORKSHEETS.map(ws => renderAccordion(ws)).join('');
+  const total = WORKSHEETS.reduce((s, ws) => s + ws.questions.length, 0);
+  document.getElementById('tv-panel-badge').textContent = total + ' uppgifter';
+  toggleWs(WORKSHEETS[0].id);
 }
 
 // ── Exercise accordion ────────────────────────────────────────────────────────
@@ -171,26 +223,21 @@ function updateCard(q, ws) {
   const card = document.getElementById('excard-' + q.id);
   if (!card) return;
 
-  // Re-render in place so render logic stays in one place (render.js)
   const temp = document.createElement('div');
   temp.innerHTML = renderQuestion(q);
   card.replaceWith(temp.firstElementChild);
 
-  // Update accordion progress bar and score
   const { done, total } = wsScore(ws);
   const fill  = document.getElementById('pfill-' + ws.id);
   const score = document.getElementById('pscore-' + ws.id);
   if (fill)  fill.style.width = `${(done / total) * 100}%`;
   if (score) { score.textContent = `${done}/${total}`; score.className = `ws-acc-score${done === total ? ' done' : ''}`; }
 
-  // Keep accordion body height correct while animating open
   const body = document.getElementById('wsbody-' + ws.id);
   const acc  = document.getElementById('ws-' + ws.id);
   if (acc?.classList.contains('open') && body?.style.maxHeight !== 'none') {
     body.style.maxHeight = body.scrollHeight + 'px';
   }
-
-  updateTopicProgress();
 }
 
 // ── Exercise interactions ─────────────────────────────────────────────────────
@@ -198,11 +245,11 @@ function selectChoice(qId, val) {
   const result = findQ(WORKSHEETS, qId);
   if (!result || exState[qId]?.locked) return;
   const { q, ws } = result;
-  const isCorrect   = checkAnswer(val, q.a);
+  const isCorrect    = checkAnswer(val, q.a);
   const prevAttempts = exState[qId]?.attempts || 0;
-  const attempts    = isCorrect ? prevAttempts : prevAttempts + 1;
-  const revealed    = !isCorrect && attempts >= 3;
-  const locked      = isCorrect || revealed;
+  const attempts     = isCorrect ? prevAttempts : prevAttempts + 1;
+  const revealed     = !isCorrect && attempts >= 3;
+  const locked       = isCorrect || revealed;
   exState[qId] = { value: val, correct: isCorrect ? true : false, locked, attempts, revealed };
   updateCard(q, ws);
   saveState();
@@ -272,6 +319,12 @@ function init() {
   updateHomeProgress();
 }
 
-window.App = { selectGrade, goHome, toggleGrade, selectItem, selectTopic, toggleWs, selectChoice, checkQ, revealQ, retryQ, clearFb, toggleDark };
+window.App = {
+  selectGrade, goHome, goGrade,
+  toggleGrade, selectItem,
+  goTopicFromCard, goTopicView,
+  toggleWs, selectChoice, checkQ, revealQ, retryQ, clearFb,
+  toggleDark
+};
 
 init();

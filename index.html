@@ -51,13 +51,13 @@
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem" onclick="App.selectItem(this)">Taluppfattning</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Uppställning</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Tid och Statistik</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Multiplikation och division</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Geometri</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Volym</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Vikt</div>
+        <div class="nav-subitem" data-grade="4" data-topic="taluppfattning" onclick="App.selectItem(this)">Taluppfattning</div>
+        <div class="nav-subitem" data-grade="4" data-topic="uppstallning" onclick="App.selectItem(this)">Uppställning</div>
+        <div class="nav-subitem" data-grade="4" data-topic="tid-statistik" onclick="App.selectItem(this)">Tid och Statistik</div>
+        <div class="nav-subitem" data-grade="4" data-topic="multiplikation-division" onclick="App.selectItem(this)">Multiplikation och division</div>
+        <div class="nav-subitem" data-grade="4" data-topic="geometri" onclick="App.selectItem(this)">Geometri</div>
+        <div class="nav-subitem" data-grade="4" data-topic="volym" onclick="App.selectItem(this)">Volym</div>
+        <div class="nav-subitem" data-grade="4" data-topic="vikt" onclick="App.selectItem(this)">Vikt</div>
       </div>
     </div>
 
@@ -68,13 +68,13 @@
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem active" onclick="App.selectItem(this)">Bråk och decimalform</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">De fyra räknesätten: Decimalform</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Tid och statistik</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Uppställning: Decimalform</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Geometri</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Volym</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Vikt</div>
+        <div class="nav-subitem" data-grade="5" data-topic="brak-decimalform" onclick="App.selectItem(this)">Bråk och decimalform</div>
+        <div class="nav-subitem" data-grade="5" data-topic="fyra-raksesatten-decimal" onclick="App.selectItem(this)">De fyra räknesätten: Decimalform</div>
+        <div class="nav-subitem" data-grade="5" data-topic="tid-statistik" onclick="App.selectItem(this)">Tid och statistik</div>
+        <div class="nav-subitem" data-grade="5" data-topic="uppstallning-decimal" onclick="App.selectItem(this)">Uppställning: Decimalform</div>
+        <div class="nav-subitem" data-grade="5" data-topic="geometri" onclick="App.selectItem(this)">Geometri</div>
+        <div class="nav-subitem" data-grade="5" data-topic="volym" onclick="App.selectItem(this)">Volym</div>
+        <div class="nav-subitem" data-grade="5" data-topic="vikt" onclick="App.selectItem(this)">Vikt</div>
       </div>
     </div>
 
@@ -85,11 +85,11 @@
         <span class="chevron"></span>
       </button>
       <div class="nav-subitems">
-        <div class="nav-subitem" onclick="App.selectItem(this)">Taluppfattning</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Bråk och procent</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Algebra</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Geometri</div>
-        <div class="nav-subitem" onclick="App.selectItem(this)">Nationella prov</div>
+        <div class="nav-subitem" data-grade="6" data-topic="taluppfattning" onclick="App.selectItem(this)">Taluppfattning</div>
+        <div class="nav-subitem" data-grade="6" data-topic="brak-procent" onclick="App.selectItem(this)">Bråk och procent</div>
+        <div class="nav-subitem" data-grade="6" data-topic="algebra" onclick="App.selectItem(this)">Algebra</div>
+        <div class="nav-subitem" data-grade="6" data-topic="geometri" onclick="App.selectItem(this)">Geometri</div>
+        <div class="nav-subitem" data-grade="6" data-topic="nationella-prov" onclick="App.selectItem(this)">Nationella prov</div>
       </div>
     </div>
   </nav>
@@ -103,104 +103,73 @@
       <button class="btn-home" onclick="App.goHome()">Alla klasser</button>
       <span class="breadcrumb-sep">›</span>
       Årskurs <span id="breadcrumb-grade">5</span>
-      <span class="breadcrumb-sep">›</span>
-      <span id="breadcrumb-topic">Taluppfattning &amp; huvudräkning</span>
     </div>
   </div>
 
   <div class="page-body">
     <header class="page-header">
       <div class="page-kicker" id="page-kicker">Årskurs 5</div>
-      <h1 class="page-title">Taluppfattning<br>&amp; <em>huvudräkning</em></h1>
-<svg class="header-ornament" viewBox="0 0 180 180" fill="none" aria-hidden="true">
+      <h1 class="page-title">Välj ett <em>delområde</em></h1>
+      <svg class="header-ornament" viewBox="0 0 180 180" fill="none" aria-hidden="true">
         <text x="10" y="160" font-family="'Cormorant Garamond', serif" font-size="180" font-weight="300" fill="currentColor" id="ornament-num">5</text>
       </svg>
     </header>
 
-    <div class="stat-row">
+    <div class="stat-row" style="grid-template-columns: repeat(2, 1fr)">
       <div class="stat-card">
         <div class="stat-card-label">Uppgifter</div>
         <div class="stat-card-value" id="stat-uppgifter">—</div>
-        <div class="stat-card-sub">Bråk, decimalform &amp; jämförelser</div>
+        <div class="stat-card-sub">i detta avsnitt</div>
       </div>
       <div class="stat-card">
         <div class="stat-card-label">Delområden</div>
-        <div class="stat-card-value">7</div>
+        <div class="stat-card-value" id="stat-delomraden">—</div>
         <div class="stat-card-sub">I detta avsnitt</div>
-      </div>
-      <div class="stat-card accent">
-        <div class="stat-card-label">Aktivt område</div>
-        <div class="stat-card-value" id="stat-grade">Åk 5</div>
-        <div class="stat-card-sub">Bråk och decimalform</div>
       </div>
     </div>
 
     <div class="section-heading">
       <h2 class="section-title">Delområden</h2>
-      <span class="section-link">Visa alla</span>
     </div>
 
-    <div class="topics-grid">
-      <div class="topic-card active" onclick="App.selectTopic(this)">
-        <div class="topic-card-icon">%</div>
-        <div class="topic-card-name">Bråk och decimalform</div>
-        <div class="topic-card-desc">Bråk, decimaltal, tiondels- och hundredelsform samt jämförelser.</div>
-        <div class="topic-card-meta">
-          <span class="meta-tag active-tag">Aktivt</span>
-          <span class="meta-tag" id="tag-uppgifter">— uppgifter</span>
-          <span class="meta-tag done-tag" id="tag-done" style="display:none">0 klara</span>
-        </div>
-      </div>
-      <div class="topic-card" onclick="App.selectTopic(this)">
-        <div class="topic-card-icon">±</div>
-        <div class="topic-card-name">De fyra räknesätten: Decimalform</div>
-        <div class="topic-card-desc">Addition, subtraktion, multiplikation och division med decimaltal.</div>
-        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
-      </div>
-      <div class="topic-card" onclick="App.selectTopic(this)">
-        <div class="topic-card-icon">t</div>
-        <div class="topic-card-name">Tid och statistik</div>
-        <div class="topic-card-desc">Klockan, tidsenheter, diagram, tabeller och att tolka data.</div>
-        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
-      </div>
-      <div class="topic-card" onclick="App.selectTopic(this)">
-        <div class="topic-card-icon">#</div>
-        <div class="topic-card-name">Uppställning: Decimalform</div>
-        <div class="topic-card-desc">Skriftliga algoritmer för räkning med decimaltal.</div>
-        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
-      </div>
-      <div class="topic-card" onclick="App.selectTopic(this)">
-        <div class="topic-card-icon">△</div>
-        <div class="topic-card-name">Geometri</div>
-        <div class="topic-card-desc">Former, vinklar, symmetri, area och omkrets.</div>
-        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
-      </div>
-      <div class="topic-card" onclick="App.selectTopic(this)">
-        <div class="topic-card-icon">◻</div>
-        <div class="topic-card-name">Volym</div>
-        <div class="topic-card-desc">Enheter för volym, mätning och omvandlingar.</div>
-        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
-      </div>
-      <div class="topic-card" onclick="App.selectTopic(this)">
-        <div class="topic-card-icon">⚖</div>
-        <div class="topic-card-name">Vikt</div>
-        <div class="topic-card-desc">Enheter för massa, mätning och omvandlingar.</div>
-        <div class="topic-card-meta"><span class="meta-tag">0 uppgifter</span></div>
-      </div>
+    <div class="topics-grid" id="topics-grid">
+      <!-- rendered by JS -->
     </div>
+  </div>
 
-    <div class="divider"></div>
+  <footer class="page-footer">
+    <span>Matematik · Träning &amp; Övning</span>
+    <span>Lgr22 · Kursplan matematik</span>
+  </footer>
+</main>
 
-    <div class="section-heading">
-      <h2 class="section-title">Aktivt område</h2>
+<!-- ── TOPIC VIEW ── -->
+<main class="main" id="topic-view" style="display:none">
+  <div class="topbar">
+    <div class="breadcrumb">
+      <button class="btn-home" onclick="App.goHome()">Alla klasser</button>
+      <span class="breadcrumb-sep">›</span>
+      <button class="btn-home" onclick="App.goGrade()">Årskurs <span id="tv-grade"></span></button>
+      <span class="breadcrumb-sep">›</span>
+      <span id="tv-topic-name"></span>
     </div>
+  </div>
+
+  <div class="page-body">
+    <header class="page-header">
+      <div class="page-kicker" id="tv-kicker"></div>
+      <h1 class="page-title" id="tv-title"></h1>
+      <svg class="header-ornament" viewBox="0 0 180 180" fill="none" aria-hidden="true">
+        <text x="10" y="160" font-family="'Cormorant Garamond', serif" font-size="180" font-weight="300" fill="currentColor" id="tv-ornament"></text>
+      </svg>
+    </header>
 
     <div class="module-panel">
       <div class="module-panel-header">
-        <div class="module-panel-title">Bråk och decimalform</div>
-        <div class="module-panel-badge" id="panel-badge">Laddar…</div>
+        <div class="module-panel-title" id="tv-panel-title"></div>
+        <div class="module-panel-badge" id="tv-panel-badge">Laddar…</div>
       </div>
-      <div class="module-panel-body exercise-area" id="exercise-panel"></div>
+      <div class="module-panel-body exercise-area" id="tv-exercise-panel"></div>
     </div>
   </div>
 
