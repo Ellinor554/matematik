@@ -1,4 +1,4 @@
-import { exState, wsScore, findQ } from '../engine/state.js';
+import { exState, wsScore, wsAllFinished, findQ } from '../engine/state.js';
 import { checkAnswer } from '../engine/check.js';
 import { renderAccordion, renderQuestion, fmtAnswer, renderMath } from '../engine/render.js';
 import grade5Taluppfattning from '../data/grade5/taluppfattning.js';
@@ -251,6 +251,10 @@ function updateCard(q, ws) {
   if (acc) {
     if (isDone) {
       acc.classList.add('done');
+    } else {
+      acc.classList.remove('done');
+    }
+    if (wsAllFinished(ws)) {
       const inner = acc.querySelector('.ws-acc-inner');
       if (inner && !inner.querySelector('.ws-redo-row')) {
         const redo = document.createElement('div');
@@ -258,8 +262,6 @@ function updateCard(q, ws) {
         redo.innerHTML = `<button class="ws-redo-btn" onclick="App.resetWs('${ws.id}')">Gör om</button>`;
         inner.appendChild(redo);
       }
-    } else {
-      acc.classList.remove('done');
     }
   }
 

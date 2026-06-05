@@ -1,4 +1,4 @@
-import { exState, wsScore } from './state.js';
+import { exState, wsScore, wsAllFinished } from './state.js';
 import { checkAnswer } from './check.js';
 
 export function renderMath(text) {
@@ -101,7 +101,7 @@ export function renderAccordion(ws) {
     ws.questions.filter(q => q.g === g).forEach(q => { qs += renderQuestion(q); });
   }
 
-  const redoHtml = isDone
+  const redoHtml = wsAllFinished(ws)
     ? `<div class="ws-redo-row"><button class="ws-redo-btn" onclick="App.resetWs('${ws.id}')">Gör om</button></div>`
     : '';
 

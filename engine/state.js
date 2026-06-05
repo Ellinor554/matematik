@@ -5,6 +5,12 @@ export function wsScore(ws) {
   return { done, total: ws.questions.length };
 }
 
+export function wsAllFinished(ws) {
+  return ws.questions.length > 0 && ws.questions.every(q =>
+    exState[q.id]?.correct === true || exState[q.id]?.revealed === true
+  );
+}
+
 export function findQ(worksheets, qId) {
   for (const ws of worksheets) {
     const q = ws.questions.find(q => q.id === qId);
