@@ -3,6 +3,7 @@ import { checkAnswer } from '../engine/check.js';
 import { renderAccordion, renderQuestion, fmtAnswer, renderMath } from '../engine/render.js';
 import grade5Taluppfattning from '../data/grade5/taluppfattning.js';
 import grade6Taluppfattning from '../data/grade6/taluppfattning.js';
+import grade6BrakProcent from '../data/grade6/brak-procent.js';
 
 const LS_KEY = 'matematik_exstate';
 
@@ -52,12 +53,13 @@ const GRADE_TOPICS = {
 const TOPIC_DATA = {
   '5:brak-decimalform': grade5Taluppfattning,
   '6:taluppfattning':   grade6Taluppfattning,
+  '6:brak-procent':     grade6BrakProcent,
 };
 
 // Flat list per grade for home screen totals
 const GRADE_WORKSHEETS = {
   5: [...grade5Taluppfattning],
-  6: [...grade6Taluppfattning],
+  6: [...grade6Taluppfattning, ...grade6BrakProcent],
 };
 
 let WORKSHEETS   = [];
