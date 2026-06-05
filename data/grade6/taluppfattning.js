@@ -1,7 +1,7 @@
 const worksheets = [
 
   {
-    id:'g6ab1', label:'1', title:'Skriv med siffror',
+    id:'g6ab1', label:'1', title:'Siffror och talvärden',
     questions:[
       {id:'g6-1-1',  g:'Skriv med siffror',    t:'Fyratusen tvåhundratre',                           a:'4203'},
       {id:'g6-1-2',  g:'Skriv med siffror',    t:'Åttatusen tjugofyra',                              a:'8024'},
@@ -27,7 +27,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab2', label:'2', title:'Störst och minst',
+    id:'g6ab2', label:'2', title:'Jämföra storlek på tal',
     questions:[
       {id:'g6-2-1s',  g:'Vilket är störst?',  t:'Vilket är störst av: 360, 36, 0,36, 3,6?',              a:'360',   choices:['360','36','0,36','3,6']},
       {id:'g6-2-1m',  g:'Vilket är minst?',   t:'Vilket är minst av: 360, 36, 0,36, 3,6?',               a:'0.36',  choices:['360','36','0,36','3,6']},
@@ -91,7 +91,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab5', label:'5', title:'Addition och subtraktion med huvudräkning',
+    id:'g6ab5', label:'5', title:'Huvudräkning',
     questions:[
       {id:'g6-5-1',   g:'Vilket tal är', t:'Vilket tal är en tiondel mindre än 0,8?',          a:'0.7'},
       {id:'g6-5-2',   g:'Vilket tal är', t:'Vilket tal är fyra hundradelar större än 0,32?',   a:'0.36'},
@@ -131,7 +131,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab6', label:'6', title:'Addition med uppställning',
+    id:'g6ab6', label:'6', title:'Skriftlig addition',
     questions:[
       {id:'g6-6-1',  g:'Beräkna', t:'14,5 + 42,3 =',    a:'56.8'},
       {id:'g6-6-2',  g:'Beräkna', t:'32,7 + 5,2 =',     a:'37.9'},
@@ -157,7 +157,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab7', label:'7', title:'Subtraktion med uppställning',
+    id:'g6ab7', label:'7', title:'Skriftlig subtraktion',
     questions:[
       {id:'g6-7-1',  g:'Beräkna', t:'7,8 − 4,3 =',      a:'3.5'},
       {id:'g6-7-2',  g:'Beräkna', t:'38,9 − 5,6 =',     a:'33.3'},
@@ -183,7 +183,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab8', label:'8', title:'Multiplikation med tal i decimalform',
+    id:'g6ab8', label:'8', title:'Multiplikation med decimaltal',
     questions:[
       {id:'g6-8-1a',  g:'Beräkna', t:'8 · 0,1 =',       a:'0.8'},
       {id:'g6-8-1b',  g:'Beräkna', t:'8 · 0,01 =',      a:'0.08'},
@@ -221,7 +221,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab9', label:'9', title:'Division med tal i decimalform',
+    id:'g6ab9', label:'9', title:'Division med decimaltal',
     questions:[
       {id:'g6-9-1a',  g:'Beräkna', t:'0,6 ÷ 2 =',    a:'0.3'},
       {id:'g6-9-1b',  g:'Beräkna', t:'0,06 ÷ 2 =',   a:'0.03'},
@@ -251,7 +251,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab10', label:'10', title:'Vilket tal är x? (I)',
+    id:'g6ab10', label:'10', title:'Enkla ekvationer',
     questions:[
       {id:'g6-10-1a',  g:'Lös för x', t:'x + 0,4 = 1 &nbsp;→&nbsp; x =',        a:'0.6',  hint:'x = 1 − 0,4'},
       {id:'g6-10-1b',  g:'Lös för x', t:'1 − x = 0,7 &nbsp;→&nbsp; x =',        a:'0.3',  hint:'x = 1 − 0,7'},
@@ -307,7 +307,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab12', label:'12', title:'Multiplikation med uppställning',
+    id:'g6ab12', label:'12', title:'Skriftlig multiplikation',
     questions:[
       {id:'g6-12-1',  g:'Beräkna', t:'3,4 · 3 =',     a:'10.2'},
       {id:'g6-12-2',  g:'Beräkna', t:'5,2 · 3 =',     a:'15.6'},
@@ -363,7 +363,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab14', label:'14', title:'Vilket tal är x? (II)',
+    id:'g6ab14', label:'14', title:'Ekvationslösning',
     questions:[
       {id:'g6-14-1a',  g:'Lös för x', t:'x · 10 = 24,7 &nbsp;→&nbsp; x =',          a:'2.47',  hint:'x = 24,7 ÷ 10'},
       {id:'g6-14-1b',  g:'Lös för x', t:'57,9 = x · 100 &nbsp;→&nbsp; x =',          a:'0.579', hint:'x = 57,9 ÷ 100'},
@@ -389,7 +389,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab15', label:'15', title:'Kort division',
+    id:'g6ab15', label:'15', title:'Huvudräkning med division',
     questions:[
       {id:'g6-15-1',  g:'Beräkna', t:'7,6 ÷ 2 =',      a:'3.8'},
       {id:'g6-15-2',  g:'Beräkna', t:'52,8 ÷ 4 =',     a:'13.2'},
@@ -415,7 +415,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab16', label:'16', title:'Multiplikation med tal som slutar på noll (I)',
+    id:'g6ab16', label:'16', title:'Multiplikation med tal som slutar på noll',
     questions:[
       {id:'g6-16-1a', g:'Beräkna', t:'14 · 30 =',          a:'420'},
       {id:'g6-16-1b', g:'Beräkna', t:'40 · 17 =',          a:'680'},
@@ -439,7 +439,7 @@ const worksheets = [
   },
 
   {
-    id:'g6ab17', label:'17', title:'Multiplikation med tal som slutar på noll (II)',
+    id:'g6ab17', label:'17', title:'Multiplikation med tal som slutar på noll',
     questions:[
       {id:'g6-17-1a', g:'Beräkna', t:'13 · 70 =',          a:'910'},
       {id:'g6-17-1b', g:'Beräkna', t:'300 · 24 =',         a:'7200'},
