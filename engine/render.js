@@ -8,6 +8,10 @@ export function renderMath(text) {
 }
 
 export function fmtAnswer(a) {
+  const mixed = a.match(/^(-?\d+)\s+(\d+)\/(\d+)$/);
+  if (mixed) {
+    return `${mixed[1]}&nbsp;<span class="frac"><span class="num">${mixed[2]}</span><span class="den">${mixed[3]}</span></span>`;
+  }
   if (a.includes('/')) {
     const [n, d] = a.split('/');
     return `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;

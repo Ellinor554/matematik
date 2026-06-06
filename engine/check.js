@@ -1,5 +1,14 @@
 export function parseVal(s) {
   s = String(s).trim().replace(',', '.');
+  // Mixed numbers like "3 1/2"
+  const mixed = s.match(/^(-?\d+)\s+(\d+)\/(\d+)$/);
+  if (mixed) {
+    const whole = parseInt(mixed[1]);
+    const num   = parseInt(mixed[2]);
+    const den   = parseInt(mixed[3]);
+    if (den === 0) return NaN;
+    return whole + num / den;
+  }
   if (s.includes('/')) {
     const [n, d] = s.split('/').map(Number);
     if (isNaN(n) || isNaN(d) || d === 0) return NaN;
