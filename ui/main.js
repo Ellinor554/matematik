@@ -5,6 +5,7 @@ import grade5Taluppfattning from '../data/grade5/taluppfattning.js';
 import grade6Taluppfattning from '../data/grade6/taluppfattning.js';
 import grade6BrakProcent from '../data/grade6/brak-procent.js';
 import grade6Algebra from '../data/grade6/algebra.js';
+import grade6Geometri from '../data/grade6/geometri.js';
 
 const LS_KEY = 'matematik_exstate';
 
@@ -56,12 +57,13 @@ const TOPIC_DATA = {
   '6:taluppfattning':   grade6Taluppfattning,
   '6:brak-procent':     grade6BrakProcent,
   '6:algebra':          grade6Algebra,
+  '6:geometri':         grade6Geometri,
 };
 
 // Flat list per grade for home screen totals
 const GRADE_WORKSHEETS = {
   5: [...grade5Taluppfattning],
-  6: [...grade6Taluppfattning, ...grade6BrakProcent, ...grade6Algebra],
+  6: [...grade6Taluppfattning, ...grade6BrakProcent, ...grade6Algebra, ...grade6Geometri],
 };
 
 let WORKSHEETS   = [];
