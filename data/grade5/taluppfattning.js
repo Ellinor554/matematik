@@ -180,6 +180,49 @@ const worksheets = [
       {id:'10-8c', g:'Vilket tal är x?', t:'x/100 = 0,06 &nbsp;→&nbsp; x =', a:'6'},
     ]
   },
+  {
+    id:'ab11', label:'9', title:'Procent – grunder',
+    questions:[
+      {id:'11-1a', g:'Vad betyder procent?',       t:'Vad är 1 % av 100?',                                                   a:'1',    hint:'Procent betyder "per hundra". 1 % av 100 = 1.'},
+      {id:'11-1b', g:'Vad betyder procent?',       t:'Vad är 100 % av 50?',                                                  a:'50',   hint:'100 % = hela. 100 % av 50 = 50.'},
+      {id:'11-2a', g:'Vanliga procent – decimalform', t:'Skriv 50 % i decimalform.',                                         a:'0.5',  hint:'Dela procenttalet med 100. 50 ÷ 100 = 0,5'},
+      {id:'11-2b', g:'Vanliga procent – decimalform', t:'Skriv 25 % i decimalform.',                                         a:'0.25'},
+      {id:'11-2c', g:'Vanliga procent – decimalform', t:'Skriv 75 % i decimalform.',                                         a:'0.75'},
+      {id:'11-2d', g:'Vanliga procent – decimalform', t:'Skriv 10 % i decimalform.',                                         a:'0.1'},
+      {id:'11-2e', g:'Vanliga procent – decimalform', t:'Skriv 1 % i decimalform.',                                          a:'0.01'},
+      {id:'11-2f', g:'Vanliga procent – decimalform', t:'Skriv 100 % i decimalform.',                                        a:'1'},
+      {id:'11-3a', g:'Vanliga procent – bråkform',  t:'Vilket bråk är 50 %?',                                                a:'1/2',  choices:['1/2','1/4','3/4'],  hint:'50 % = 50/100 = 1/2'},
+      {id:'11-3b', g:'Vanliga procent – bråkform',  t:'Vilket bråk är 25 %?',                                                a:'1/4',  choices:['1/2','1/4','3/4']},
+      {id:'11-3c', g:'Vanliga procent – bråkform',  t:'Vilket bråk är 75 %?',                                                a:'3/4',  choices:['1/2','1/4','3/4']},
+      {id:'11-3d', g:'Vanliga procent – bråkform',  t:'Skriv 10 % i bråkform (enklaste form).',                              a:'1/10', hint:'10 % = 10/100 = 1/10'},
+      {id:'11-3e', g:'Vanliga procent – bråkform',  t:'Skriv 20 % i bråkform (enklaste form).',                              a:'1/5',  hint:'20 % = 20/100 = 1/5'},
+      {id:'11-4a', g:'Jämför',                      t:'Vilket är störst: 50 % eller 0,4?',                                   a:'50 %', choices:['50 %','0,4']},
+      {id:'11-4b', g:'Jämför',                      t:'Vilket är störst: 25 % eller 1/3?',                                   a:'1/3',  choices:['25 %','1/3']},
+    ]
+  },
+
+  {
+    id:'ab12', label:'10', title:'Omvandla: bråk, decimal och procent',
+    questions:[
+      {id:'12-1a', g:'Procent → decimalform',       t:'Skriv 30 % i decimalform.',                                           a:'0.3',  hint:'Dela med 100. T.ex. 40 % = 0,40 = 0,4'},
+      {id:'12-1b', g:'Procent → decimalform',       t:'Skriv 60 % i decimalform.',                                           a:'0.6'},
+      {id:'12-1c', g:'Procent → decimalform',       t:'Skriv 5 % i decimalform.',                                            a:'0.05'},
+      {id:'12-1d', g:'Procent → decimalform',       t:'Skriv 15 % i decimalform.',                                           a:'0.15'},
+      {id:'12-2a', g:'Decimalform → procent',       t:'Skriv 0,4 i procentform. Ange bara siffran.',                         a:'40',   hint:'Multiplicera med 100. T.ex. 0,3 × 100 = 30 %'},
+      {id:'12-2b', g:'Decimalform → procent',       t:'Skriv 0,8 i procentform. Ange bara siffran.',                         a:'80'},
+      {id:'12-2c', g:'Decimalform → procent',       t:'Skriv 0,07 i procentform. Ange bara siffran.',                        a:'7'},
+      {id:'12-2d', g:'Decimalform → procent',       t:'Skriv 0,35 i procentform. Ange bara siffran.',                        a:'35'},
+      {id:'12-3a', g:'Bråk → procent',              t:'Skriv 1/2 i procentform. Ange bara siffran.',                         a:'50',   hint:'Multiplicera bråket med 100. T.ex. 1/4 × 100 = 25 %'},
+      {id:'12-3b', g:'Bråk → procent',              t:'Skriv 1/4 i procentform. Ange bara siffran.',                         a:'25'},
+      {id:'12-3c', g:'Bråk → procent',              t:'Skriv 3/4 i procentform. Ange bara siffran.',                         a:'75'},
+      {id:'12-3d', g:'Bråk → procent',              t:'Skriv 1/10 i procentform. Ange bara siffran.',                        a:'10'},
+      {id:'12-3e', g:'Bråk → procent',              t:'Skriv 2/5 i procentform. Ange bara siffran.',                         a:'40'},
+      {id:'12-4a', g:'Procent → bråkform',          t:'Skriv 50 % i bråkform (enklaste form).',                              a:'1/2',  hint:'Skriv som n/100 och förkorta. T.ex. 25 % = 25/100 = 1/4'},
+      {id:'12-4b', g:'Procent → bråkform',          t:'Skriv 10 % i bråkform (enklaste form).',                              a:'1/10'},
+      {id:'12-4c', g:'Procent → bråkform',          t:'Skriv 40 % i bråkform (enklaste form).',                              a:'2/5',  choices:['2/5','4/10','2/10','4/5']},
+    ]
+  },
+
 ];
 
 export default worksheets;
